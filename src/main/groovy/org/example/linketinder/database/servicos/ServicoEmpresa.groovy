@@ -186,7 +186,7 @@ class ServicoEmpresa {
             }
         } catch (Exception exception) {
             exception.printStackTrace();
-            System.err.println("Erro em deletarCompetenciaCandidato");
+            System.err.println("Erro em deletar Competencia Empresa");
             System.exit(-42);
         }
     }

@@ -116,11 +116,11 @@ class ServicoCandidato {
     boolean atualizar(PessoaFisica candidato){
         try {
             Connection conn = servicoConectar.conectar()
-            String ATUALIZAR = "UPDATE linlketinder.candidato \n" +
+            String ATUALIZAR = "UPDATE linlketinder.candidato " +
                     "SET nome_candidato =?, email_candidato =?, " +
                     "senha_candidato =?, telefone_candidato =?," +
-                    " estado_candidato =?, cep_candidato =?,\n" +
-                    "descricao_candidato =?, idade_candidato =?\n" +
+                    " estado_candidato =?, cep_candidato =?, " +
+                    "descricao_candidato =?, idade_candidato =? " +
                     "WHERE cpf_candidato= ?"
             PreparedStatement salvar = conn.prepareStatement(ATUALIZAR);
 
@@ -141,7 +141,7 @@ class ServicoCandidato {
 
         } catch (Exception exeption) {
             exeption.printStackTrace()
-            System.err.println("Erro em atualizarDescricao")
+            System.err.println("Erro em atualizar Descricao")
             System.exit(-42);
         }
         return false
@@ -158,10 +158,10 @@ class ServicoCandidato {
             servicoConectar.desconectar(conn)
         } catch (Exception exception) {
             exception.printStackTrace();
-            System.err.println("Erro em deletarCompetenciaCandidato");
+            System.err.println("Erro em deletar Competencia Candidato");
             System.exit(-42);
         }
+        return false
     }
-
 
 }

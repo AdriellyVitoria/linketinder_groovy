@@ -27,7 +27,7 @@ tasks.withType(JavaCompile) {
 
 application {
   mainModule = 'org.example.linketinder'
-  mainClass = 'org.example.linketinder.HelloApplication'
+  mainClass = 'org.example.linketinder.database'
 }
 
 javafx {
@@ -39,6 +39,7 @@ dependencies {
   implementation('org.apache.groovy:groovy:4.0.10')
 
   testImplementation("org.junit.jupiter:junit-jupiter-api:${junitVersion}")
+  implementation group: 'org.postgresql', name: 'postgresql', version: '42.7.2'
   testRuntimeOnly("org.junit.jupiter:junit-jupiter-engine:${junitVersion}")
 }
 

@@ -101,7 +101,7 @@ class ServicoCandidatoCompetencia {
         } catch (Exception exception) {
             System.err.println("Erro ao aplicar para vaga")
             if (exception.message.contains("candidato_vaga_id_vaga_fkey")){
-                System.err.println("Essa vaga não existe")
+                System.err.println("Essa competencia não existe")
             }
             if (exception.message.contains("candidato_competencia_pkey")){
                 System.err.println("Voce já inserir essa competencia")
