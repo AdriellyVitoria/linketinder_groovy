@@ -1,5 +1,6 @@
 package org.example.linketinder.database.views
 
+import org.example.linketinder.database.modelos.Competencia
 import org.example.linketinder.database.modelos.PessoaFisica
 import org.example.linketinder.database.modelos.Vaga
 import org.example.linketinder.database.servicos.ServicoCandidato
@@ -57,10 +58,11 @@ class CandidatoViews {
                 if (inserir ) {
                     def addCompetencias = competenciaViews.inserirCompetenciaCandidato(candidato.cpf)
                     if (addCompetencias){
-                        println("Candidato " + candidato.getNome() + " foi inserido com sucesso")
                         servicoLogin.setCandidato(
                                 servicoCandidato.entradaCandidato(candidato.getEmail(), candidato.getSenha())
                         )
+                        println("Candidato " + candidato.getNome() + " foi inserido com sucesso")
+
                         menuPrincipalCandidato()
                         break
                     }
@@ -135,6 +137,13 @@ class CandidatoViews {
             if (opcao == 1){
                 PessoaFisica candidato = servicoLogin.getCandidato()
                 println(candidato)
+                println("Competêcias")
+                def listar = servicoCandidatoCompetencia.listarCompetencia(
+                        ServicoLogin.candidato.getCpf()
+                )
+                for (Competencia com : listar) {
+                    println("Id " + com.getId() + ":" + com.getDescricao())
+                }
             } else if(opcao == 2) {
                 candidato.cpf = ServicoLogin.candidato.cpf
                 opcao = input.validaEntradaDeInteiro("1- Editar detalhes | 2- Editar Competencia | 3- Voltar",
@@ -160,8 +169,10 @@ class CandidatoViews {
     }
 
     void editarDescricao(){
-        boolean vericacaoAtualizacao = servicoCandidato.atualizar(imformacoesCandidato())
+        def candidato = imformacoesCandidato()
+        boolean vericacaoAtualizacao = servicoCandidato.atualizar(candidato)
         if (vericacaoAtualizacao) {
+            servicoLogin.setCandidato(candidato)
             println("O candidato foi atualizando com sucesso")
         } else {
             println("tente novamente")

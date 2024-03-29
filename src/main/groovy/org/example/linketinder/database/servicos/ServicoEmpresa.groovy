@@ -131,8 +131,8 @@ class ServicoEmpresa {
 
             if(qtd > 0){
                 String ATUALIZAR = "UPDATE linlketinder.empresa " +
-                        "SET nome_empresa=?, email_empresa=?,\n" +
-                        "senha_empresa=?, telefone_empresa=?, cep_empresa=?,\n" +
+                        "SET nome_empresa=?, email_empresa=?," +
+                        "senha_empresa=?, telefone_empresa=?, cep_empresa=?," +
                         "estado_empresa=?, pais_empresa=?, descricao_empresa=? " +
                         "WHERE cnpj_empresa=?"
 
@@ -148,14 +148,14 @@ class ServicoEmpresa {
                 salvar.setString(8, empresa.getDescricao())
                 salvar.setString(9, empresa.getCnpj())
 
-                salvar.executeUpdate();
-                salvar.close();
-                servicoConectar.desconectar(conn);
+                salvar.executeUpdate()
+                salvar.close()
+                servicoConectar.desconectar(conn)
                 return true
             }
         } catch (Exception exeption) {
             exeption.printStackTrace()
-            System.err.println("Erro em atualizarDescricao")
+            System.err.println("Erro em atualizar Descricao")
             System.exit(-42);
         }
         return false

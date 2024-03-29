@@ -100,6 +100,7 @@ class EmpresaViews {
                 PessoaJuridica empresa = imformacoesEmpresa()
                 String verificacaoAtualizacao = servicoEmpresa.atualizar(empresa);
                 if (verificacaoAtualizacao){
+                    servicoLogin.setEmpresa(empresa)
                     println("A empresa foi atualizando com sucesso")
                 } else {
                     println("tente novamente")

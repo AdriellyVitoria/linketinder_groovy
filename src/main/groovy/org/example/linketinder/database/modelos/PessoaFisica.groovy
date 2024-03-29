@@ -27,12 +27,11 @@ class PessoaFisica extends Pessoa {
         return " CPF: ${cpf}\n" +
                 " Nome: ${nome}\n" +
                 " Email: ${email}\n" +
-                " CPF: ${cpf}\n" +
                 " Idade: ${idade}\n" +
                 " Estado: ${estado}\n" +
                 " CEP: ${cep}\n" +
                 " Telefone: ${telefone}\n" +
-                " Descrição: ${descricao}\n" +
-                " Competências: ${competencias}"
+                " Descrição: ${descricao}\n"
+
     }
 }

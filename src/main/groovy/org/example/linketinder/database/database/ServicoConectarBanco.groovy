@@ -3,7 +3,6 @@ package org.example.linketinder.database.database
 import java.sql.Connection
 import java.sql.SQLException
 import java.sql.DriverManager
-import java.util.Properties
 
 class ServicoConectarBanco {
     Connection conectar() {

@@ -83,8 +83,6 @@ class VagaViews {
             atualizarDescricao(id_vaga)
         } else if (opcao == 2) {
             atualizarCompetencia(id_vaga)
-        } else {
-            menuVagas()
         }
     }
 
