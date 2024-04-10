@@ -8,7 +8,12 @@ import java.sql.PreparedStatement
 import java.sql.ResultSet
 
 class ServicoCandidatoCompetencia {
-    def servicoConectar = new ServicoConectarBanco()
+
+    private ServicoConectarBanco servicoConectar
+
+    ServicoCandidatoCompetencia(){
+        servicoConectar = new ServicoConectarBanco()
+    }
 
     String montarQueryBuscarPorCpf() {
         return "select " +
@@ -37,7 +42,7 @@ class ServicoCandidatoCompetencia {
             int qtd = res.getRow();
             res.beforeFirst();
 
-            def competencias = []
+            ArrayList competencias = []
             if (qtd > 0){
                 while (res.next()) {
                     Competencia c = new Competencia (
@@ -81,7 +86,7 @@ class ServicoCandidatoCompetencia {
             }
             return true
         } catch (Exception exception) {
-            System.err.println("voce não possue essa competencia")
+            System.err.println("Voce não possue essa competencia")
         }
     }
 
@@ -99,7 +104,7 @@ class ServicoCandidatoCompetencia {
             servicoConectar.desconectar(conn);
             return true
         } catch (Exception exception) {
-            System.err.println("Erro ao aplicar para vaga")
+            System.err.println("Erro ao add competencia")
             if (exception.message.contains("candidato_competencia_id_competencia_fkey")){
                 System.err.println("Essa competencia não existe")
             }

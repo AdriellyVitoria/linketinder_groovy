@@ -4,7 +4,7 @@ import org.example.linketinder.database.menu.Menu
 
 class Main {
     static void main(String[] args) {
-        def menu = new Menu()
+        Menu menu = new Menu()
         menu.menuInicial()
     }
 }

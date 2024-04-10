@@ -115,48 +115,32 @@ class ServicoEmpresa {
     boolean atualizar(PessoaJuridica empresa) {
         try {
             Connection conn = servicoConectar.conectar()
+            String ATUALIZAR = "UPDATE linlketinder.empresa " +
+                    "SET nome_empresa=?, email_empresa=?," +
+                    "senha_empresa=?, telefone_empresa=?, cep_empresa=?," +
+                    "estado_empresa=?, pais_empresa=?, descricao_empresa=? " +
+                    "WHERE cnpj_empresa=?"
 
-            PreparedStatement empresas = conn.prepareStatement(
-                    montarQueryBuscarPorCnpj(),
-                    ResultSet.TYPE_SCROLL_INSENSITIVE,
-                    ResultSet.CONCUR_READ_ONLY
-            )
+            PreparedStatement salvar = conn.prepareStatement(ATUALIZAR);
 
-            empresas.setString(1, empresa.cnpj);
-            ResultSet res = empresas.executeQuery();
+            salvar.setString(1, empresa.getNome())
+            salvar.setString(2, empresa.getEmail())
+            salvar.setString(3, empresa.getSenha())
+            salvar.setString(4, empresa.getTelefone())
+            salvar.setString(5, empresa.getCep())
+            salvar.setString(6, empresa.getEstado())
+            salvar.setString(7, empresa.getPais())
+            salvar.setString(8, empresa.getDescricao())
+            salvar.setString(9, empresa.getCnpj())
 
-            res.last();
-            int qtd = res.getRow();
-            res.beforeFirst();
+            salvar.executeUpdate()
+            salvar.close()
+            servicoConectar.desconectar(conn)
+            return true
 
-            if(qtd > 0){
-                String ATUALIZAR = "UPDATE linlketinder.empresa " +
-                        "SET nome_empresa=?, email_empresa=?," +
-                        "senha_empresa=?, telefone_empresa=?, cep_empresa=?," +
-                        "estado_empresa=?, pais_empresa=?, descricao_empresa=? " +
-                        "WHERE cnpj_empresa=?"
-
-                PreparedStatement salvar = conn.prepareStatement(ATUALIZAR);
-
-                salvar.setString(1, empresa.getNome())
-                salvar.setString(2, empresa.getEmail())
-                salvar.setString(3, empresa.getSenha())
-                salvar.setString(4, empresa.getTelefone())
-                salvar.setString(5, empresa.getCep())
-                salvar.setString(6, empresa.getEstado())
-                salvar.setString(7, empresa.getPais())
-                salvar.setString(8, empresa.getDescricao())
-                salvar.setString(9, empresa.getCnpj())
-
-                salvar.executeUpdate()
-                salvar.close()
-                servicoConectar.desconectar(conn)
-                return true
-            }
         } catch (Exception exeption) {
             exeption.printStackTrace()
-            System.err.println("Erro em atualizar Descricao")
-            System.exit(-42);
+            System.err.println("Erro em atualizar Empresa")
         }
         return false
     }

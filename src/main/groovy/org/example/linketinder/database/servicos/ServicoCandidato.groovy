@@ -140,9 +140,7 @@ class ServicoCandidato {
             return true
 
         } catch (Exception exeption) {
-            exeption.printStackTrace()
             System.err.println("Erro em atualizar Descricao")
-            System.exit(-42);
         }
         return false
     }
@@ -157,9 +155,7 @@ class ServicoCandidato {
             del.close()
             servicoConectar.desconectar(conn)
         } catch (Exception exception) {
-            exception.printStackTrace();
             System.err.println("Erro em deletar Competencia Candidato");
-            System.exit(-42);
         }
         return false
     }

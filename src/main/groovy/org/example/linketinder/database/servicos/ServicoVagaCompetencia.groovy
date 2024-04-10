@@ -39,7 +39,7 @@ class ServicoVagaCompetencia {
             int qtd = res.getRow()
             res.beforeFirst()
 
-            def competencias = []
+            ArrayList competencias = []
             if (qtd > 0) {
                 while (res.next()) {
                     Competencia c = new Competencia(
@@ -73,7 +73,7 @@ class ServicoVagaCompetencia {
             int qtd = res.getRow();
             res.beforeFirst();
 
-            def competencias = []
+            ArrayList competencias = []
             if (qtd > 0) {
                 while (res.next()) {
                     Competencia c = new Competencia(

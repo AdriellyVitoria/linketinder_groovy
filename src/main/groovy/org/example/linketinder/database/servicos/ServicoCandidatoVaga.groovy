@@ -21,11 +21,6 @@ class ServicoCandidatoVaga {
                 "FROM linlketinder.vaga"
     }
 
-    String montarQueryBuscarPorCpf(){
-        return "SELECT id_vaga, descricao_vaga, titulo_vaga, local_vaga " +
-                "FROM linlketinder.vaga WHERE cpf_candidato=?"
-    }
-
     String listarVagasAplicadas(){
         return  "SELECT " +
                 "v.id_vaga, " +
@@ -48,7 +43,7 @@ class ServicoCandidatoVaga {
                     ResultSet.TYPE_SCROLL_INSENSITIVE,
                     ResultSet.CONCUR_READ_ONLY
             )
-            def cpf = ServicoLogin.candidato.getCpf()
+            String cpf = ServicoLogin.candidato.getCpf()
 
             ResultSet res = vaga.executeQuery()
             res.last()
@@ -74,7 +69,7 @@ class ServicoCandidatoVaga {
         }
     }
 
-    def listarPorCpf(String cpf_candidato) {
+    ArrayList<Vaga>  listarPorCpf(String cpf_candidato) {
         try {
             Connection conn = servicoConectar.conectar();
             PreparedStatement vaga = conn.prepareStatement(

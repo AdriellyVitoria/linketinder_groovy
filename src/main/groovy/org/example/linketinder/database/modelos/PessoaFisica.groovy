@@ -32,6 +32,5 @@ class PessoaFisica extends Pessoa {
                 " CEP: ${cep}\n" +
                 " Telefone: ${telefone}\n" +
                 " Descrição: ${descricao}\n"
-
     }
 }

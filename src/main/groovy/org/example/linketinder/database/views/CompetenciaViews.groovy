@@ -27,7 +27,7 @@ class CompetenciaViews {
 
     void listarCompetencia() {
         println("Add suas competencias (Digite 1 id por vez):")
-        def listar = servicoCompetencia.listarTodas()
+        ArrayList listar = servicoCompetencia.listarTodas()
         for (Competencia com : listar) {
             println("Id " + com.getId() + " : " + com.getDescricao())
         }
@@ -74,7 +74,7 @@ class CompetenciaViews {
     }
 
     void deletarCompetenciaCandidato(){
-        def listar = candidatoCompetencia.listarCompetencia(
+        ArrayList listar = candidatoCompetencia.listarCompetencia(
                 ServicoLogin.candidato.getCpf()
         )
         for (Competencia com : listar) {
@@ -89,7 +89,7 @@ class CompetenciaViews {
     }
 
     void deletarCompetenicaVaga(Integer id_vaga){
-        def listar = vagaCompetencia.listarCompetencia(id_vaga)
+        ArrayList<Competencia> listar = vagaCompetencia.listarCompetencia(id_vaga)
         for (Competencia com : listar) {
             println("Id " + com.getId() + ":" + com.getDescricao())
         }

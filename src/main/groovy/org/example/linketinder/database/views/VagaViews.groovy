@@ -29,16 +29,7 @@ class VagaViews {
                     "\n1- Criar Vaga\n2- Listar vagas\n3- Atualizar vaga\n4- Deletar vaga\n5- Voltar",
                     1, 5)
             if (opcao == 1) {
-                def criar = servicoVaga.criar(imformacoesParaVaga())
-                if (criar != null) {
-                    println("Erro ao criar vaga")
-                } else {
-                    boolean addCompetencia = competenciaViews.inserirCompetenciaVaga(pegarId())
-                    if (addCompetencia) {
-                        println("Vaga criada com sucesso")
-                        menuVagas()
-                    }
-                }
+                criarVaga()
             } else if(opcao == 2){
                 listar(ServicoLogin.getEmpresa().cnpj)
             } else if (opcao == 3) {
@@ -47,6 +38,19 @@ class VagaViews {
                 deletarVaga()
             } else {
                 break
+            }
+        }
+    }
+
+   void criarVaga() {
+        Vaga criar = servicoVaga.criar(imformacoesParaVaga())
+        if (criar != null) {
+            println("Erro ao criar vaga")
+        } else {
+            boolean addCompetencia = competenciaViews.inserirCompetenciaVaga(pegarId())
+            if (addCompetencia) {
+                println("Vaga criada com sucesso")
+                menuVagas()
             }
         }
     }
@@ -91,7 +95,7 @@ class VagaViews {
             opcao = inputValidation.validaEntradaDeInteiro("1- Add nova Competencia | 2- Apagar Competencia |" +
                     " 3- Voltar", 1, 3)
             if (opcao == 1){
-                def addCompetencia = competenciaViews.inserirCompetenciaVaga(id_vaga)
+                boolean addCompetencia = competenciaViews.inserirCompetenciaVaga(id_vaga)
                 if (addCompetencia){
                     println("Atualizando com sucesso")
                 } else {
@@ -107,7 +111,7 @@ class VagaViews {
 
     void atualizarDescricao(Integer id_vaga){
         Vaga vaga = imformacoesParaVaga()
-        def confirmacaoAtualizar = servicoVaga.atualizar(id_vaga, vaga)
+        boolean confirmacaoAtualizar = servicoVaga.atualizar(id_vaga, vaga)
         if (confirmacaoAtualizar){
             println("Vaga atualizada com sucesso")
         } else {
@@ -141,8 +145,6 @@ class VagaViews {
             if (opcao == 1){
                 servicoVaga.deletar(id_vaga)
                 println("Vaga apagada com sucesso")
-            } else {
-                menuVagas()
             }
         }
     }

@@ -1,10 +1,10 @@
 package org.example.linketinder.database.utils
 
 class InputValidation {
-    private Scanner scanner;
+    private Scanner scanner
 
     InputValidation() {
-        scanner = new Scanner(System.in);
+        scanner = new Scanner(System.in)
     }
 
     Integer validaEntradaDeInteiro(String pergunta, Integer opcaoInicial, Integer opcaoFinal) {
@@ -17,7 +17,7 @@ class InputValidation {
                 }
                 throw new Exception();
             } catch (Exception e) {
-                System.out.println("Opcao Inválida... Tente novamente\n");
+                System.err.println("Opcao Inválida... Tente novamente\n")
             }
         }
     }

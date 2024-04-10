@@ -83,7 +83,7 @@ class ServicoVaga {
         return null
     }
 
-    def listarTodas() {
+    ArrayList<Vaga> listarTodas() {
         try {
             Connection conn = servicoConectar.conectar();
             PreparedStatement vaga = conn.prepareStatement(
@@ -119,7 +119,7 @@ class ServicoVaga {
         }
     }
 
-    def listar(String cnpj_empresa) {
+    ArrayList<Vaga> listar(String cnpj_empresa) {
         try {
             Connection conn = servicoConectar.conectar();
             PreparedStatement vaga = conn.prepareStatement(
@@ -207,7 +207,6 @@ class ServicoVaga {
             servicoConectar.desconectar(conn)
         } catch (Exception exception) {
             System.err.println("Erro em deletar vaga");
-            System.exit(-42);
         }
     }
 }
