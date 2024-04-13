@@ -1,5 +1,5 @@
-import org.example.linketinder.database.database.ServicoConectarBanco
-import org.example.linketinder.database.servicos.ServicoCompetencia
+import org.example.linketinder.database.database.ConectarBancoServico
+import org.example.linketinder.database.servicos.CompetenciaServico
 import org.junit.Test
 import org.junit.Assert
 
@@ -13,11 +13,11 @@ import static org.mockito.Mockito.mock
 import static org.mockito.Mockito.when
 
 class ServicoCompetenciaTeste {
-    private ServicoCompetencia servicoCompetencia
+    private CompetenciaServico servicoCompetencia
 
     ServicoCompetenciaTeste() {
         def connectionMock = mock(Connection.class)
-        def servicoConectarBancoMock = mock(ServicoConectarBanco.class)
+        def servicoConectarBancoMock = mock(ConectarBancoServico.class)
         def prepareStatementMock = mock(PreparedStatement.class)
         def resultSetMock = mock(ResultSet.class)
 
@@ -26,7 +26,7 @@ class ServicoCompetenciaTeste {
         when(connectionMock.prepareStatement(anyString(), anyInt(), anyInt())).thenReturn(prepareStatementMock)
         when(prepareStatementMock.executeQuery()).thenReturn(resultSetMock)
 
-        servicoCompetencia = new ServicoCompetencia(servicoConectarBancoMock)
+        servicoCompetencia = new CompetenciaServico(servicoConectarBancoMock)
     }
 
     @Test

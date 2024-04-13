@@ -1,19 +1,19 @@
 package org.example.linketinder.database.servicos
 
-import org.example.linketinder.database.database.ServicoConectarBanco
+import org.example.linketinder.database.database.ConectarBancoServico
 import org.example.linketinder.database.modelos.Vaga
 
 import java.sql.Connection
 import java.sql.PreparedStatement
 import java.sql.ResultSet
 
-class ServicoCandidatoVaga {
-    private ServicoConectarBanco servicoConectar
-    private ServicoVagaCompetencia servicoVaga
+class CandidatoVagaServico {
+    private ConectarBancoServico servicoConectar
+    private VagaCompetenciaServico servicoVaga
 
-    ServicoCandidatoVaga(){
-        servicoConectar = new ServicoConectarBanco()
-        servicoVaga = new ServicoVagaCompetencia()
+    CandidatoVagaServico(){
+        servicoConectar = new ConectarBancoServico()
+        servicoVaga = new VagaCompetenciaServico()
     }
 
     String montarQueryBuscar() {
@@ -43,7 +43,7 @@ class ServicoCandidatoVaga {
                     ResultSet.TYPE_SCROLL_INSENSITIVE,
                     ResultSet.CONCUR_READ_ONLY
             )
-            String cpf = ServicoLogin.candidato.getCpf()
+            String cpf = LoginServico.candidato.getCpf()
 
             ResultSet res = vaga.executeQuery()
             res.last()

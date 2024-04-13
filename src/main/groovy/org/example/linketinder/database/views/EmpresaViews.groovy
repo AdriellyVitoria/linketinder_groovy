@@ -1,14 +1,15 @@
 package org.example.linketinder.database.views
 
+import org.example.linketinder.database.factorys.EmpresaServicoFactory
 import org.example.linketinder.database.modelos.PessoaJuridica
-import org.example.linketinder.database.servicos.ServicoEmpresa
-import org.example.linketinder.database.servicos.ServicoLogin
+import org.example.linketinder.database.servicos.EmpresaServico
+import org.example.linketinder.database.servicos.LoginServico
 import org.example.linketinder.database.utils.InputValidation
 
 class EmpresaViews {
     private opcao
     private InputValidation input
-    private ServicoEmpresa servicoEmpresa
+    private EmpresaServico servicoEmpresa
     private PessoaJuridica empresa
     private VagaViews vaga
     private EntradaEmpresaView entradaEmpresaView
@@ -16,7 +17,7 @@ class EmpresaViews {
 
     EmpresaViews(EntradaEmpresaView entradaEmpresaView) {
         input = new InputValidation()
-        servicoEmpresa = new ServicoEmpresa()
+        servicoEmpresa = EmpresaServicoFactory.criarInstancia()
         empresa = new PessoaJuridica()
         vaga = new VagaViews(this)
         this.entradaEmpresaView = entradaEmpresaView
@@ -32,12 +33,12 @@ class EmpresaViews {
             } else if (opcao == 2){
                 boolean delete = menuEditarPerfilEmpresa()
                 if (delete) {
-                    ServicoLogin.logout()
+                    LoginServico.logout()
                     break
                 }
             } else {
                 println("Volte Sempre...")
-                ServicoLogin.logout()
+                LoginServico.logout()
                 break
             }
         }
@@ -49,7 +50,7 @@ class EmpresaViews {
                     "1- Ver perfil\n2- Editar perfil\n3- Excluir Perfil\n4- Voltar para o menu principal",
                     1, 4)
             if (opcao == 1){
-                PessoaJuridica empresa = ServicoLogin.getEmpresa()
+                PessoaJuridica empresa = LoginServico.getEmpresa()
                 println(empresa)
             } else if (opcao == 2){
                 EditarPerfil()
@@ -67,12 +68,12 @@ class EmpresaViews {
 
     void EditarPerfil() {
         empresa.setCnpj(
-                ServicoLogin.getEmpresa().cnpj
+                LoginServico.getEmpresa().cnpj
         )
         PessoaJuridica empresa = entradaEmpresaView.imformacoesEmpresa()
         String verificacaoAtualizacao = servicoEmpresa.atualizar(empresa)
         if (verificacaoAtualizacao) {
-            ServicoLogin.setEmpresa(empresa)
+            LoginServico.setEmpresa(empresa)
             println("A empresa foi atualizando com sucesso")
         } else {
             println("tente novamente")
@@ -83,7 +84,7 @@ class EmpresaViews {
         opcao = input.validaEntradaDeInteiro(
                 "Certeza que deseja exluir empresa:\n 1- Sim | 2- Não", 1, 2)
         if (opcao == 1){
-            String cnpj = ServicoLogin.getEmpresa().cnpj
+            String cnpj = LoginServico.getEmpresa().cnpj
             servicoEmpresa.deletar(cnpj)
             println("Apagado com sucesso")
             return true

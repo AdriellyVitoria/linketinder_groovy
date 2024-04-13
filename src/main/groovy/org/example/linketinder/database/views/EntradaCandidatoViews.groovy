@@ -1,16 +1,16 @@
 package org.example.linketinder.database.views
 
-import org.example.linketinder.database.factorys.ServicoCandidatoFactory
+import org.example.linketinder.database.factorys.CandidatoServicoFactory
 import org.example.linketinder.database.modelos.PessoaFisica
-import org.example.linketinder.database.servicos.ServicoCandidato
-import org.example.linketinder.database.servicos.ServicoLogin
+import org.example.linketinder.database.servicos.CandidatoServico
+import org.example.linketinder.database.servicos.LoginServico
 import org.example.linketinder.database.utils.InputValidation
 
 class EntradaCandidatoViews {
     private opcao
     private InputValidation input
     private PessoaFisica candidato
-    private ServicoCandidato servicoCandidato
+    private CandidatoServico servicoCandidato
     private CandidatoViews candidatoViews
     private CompetenciaViews competenciaViews
     private Scanner scanner
@@ -18,7 +18,7 @@ class EntradaCandidatoViews {
     EntradaCandidatoViews(){
         input = new InputValidation()
         candidato = new PessoaFisica()
-        servicoCandidato = ServicoCandidatoFactory.criarInstancia()
+        servicoCandidato = CandidatoServicoFactory.criarInstancia()
         candidatoViews = new CandidatoViews(this)
         competenciaViews = new CompetenciaViews()
         scanner = new Scanner(System.in)
@@ -51,7 +51,7 @@ class EntradaCandidatoViews {
         if (inserir) {
             boolean addCompetencias = competenciaViews.inserirCompetenciaCandidato(candidato.cpf)
             if (addCompetencias) {
-                ServicoLogin.setCandidato(
+                LoginServico.setCandidato(
                         servicoCandidato.entradaCandidato(candidato.getEmail(), candidato.getSenha())
                 )
                 println("Candidato " + candidato.getNome() + " foi inserido com sucesso")
@@ -71,7 +71,7 @@ class EntradaCandidatoViews {
         String senha_empresa = scanner.nextLine()
         PessoaFisica candidato = servicoCandidato.entradaCandidato(email_empresa, senha_empresa)
         if (candidato != null) {
-            ServicoLogin.setCandidato(candidato)
+            LoginServico.setCandidato(candidato)
             candidatoViews.menuPrincipalCandidato()
         } else {
             println("Email ou senha incorretos")

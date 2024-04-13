@@ -1,17 +1,17 @@
 package org.example.linketinder.database.servicos
 
-import org.example.linketinder.database.database.ServicoConectarBanco
+import org.example.linketinder.database.database.ConectarBancoServico
 import org.example.linketinder.database.modelos.Competencia
 
 import java.sql.Connection
 import java.sql.PreparedStatement
 import java.sql.ResultSet
 
-class ServicoVagaCompetencia {
-    private ServicoConectarBanco servicoConectar
+class VagaCompetenciaServico {
+    private ConectarBancoServico servicoConectar
 
-    ServicoVagaCompetencia() {
-        servicoConectar = new ServicoConectarBanco()
+    VagaCompetenciaServico() {
+        servicoConectar = new ConectarBancoServico()
     }
 
     String buscarCompetencia() {

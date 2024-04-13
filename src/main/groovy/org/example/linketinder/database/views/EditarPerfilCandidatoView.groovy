@@ -1,29 +1,29 @@
 package org.example.linketinder.database.views
 
-import org.example.linketinder.database.factorys.ServicoCandidatoFactory
+import org.example.linketinder.database.factorys.CandidatoServicoFactory
 import org.example.linketinder.database.modelos.Competencia
 import org.example.linketinder.database.modelos.PessoaFisica
-import org.example.linketinder.database.servicos.ServicoCandidato
-import org.example.linketinder.database.servicos.ServicoCandidatoCompetencia
-import org.example.linketinder.database.servicos.ServicoLogin
+import org.example.linketinder.database.servicos.CandidatoServico
+import org.example.linketinder.database.servicos.CandidatoCompetenciaServico
+import org.example.linketinder.database.servicos.LoginServico
 import org.example.linketinder.database.utils.InputValidation
 
 class EditarPerfilCandidatoView {
     private Integer opcao
     private InputValidation input
-    private ServicoCandidato servicoCandidato
+    private CandidatoServico servicoCandidato
     private PessoaFisica candidato
     private CompetenciaViews competenciaViews
-    private ServicoCandidatoCompetencia servicoCandidatoCompetencia
+    private CandidatoCompetenciaServico servicoCandidatoCompetencia
     private EntradaCandidatoViews entradaCandidatoViews
     private Scanner scanner
 
     EditarPerfilCandidatoView(EntradaCandidatoViews entradaCandidatoViews){
         input = new InputValidation()
-        servicoCandidato = ServicoCandidatoFactory.criarInstancia()
+        servicoCandidato = CandidatoServicoFactory.criarInstancia()
         candidato = new PessoaFisica()
         competenciaViews = new CompetenciaViews()
-        servicoCandidatoCompetencia = new ServicoCandidatoCompetencia()
+        servicoCandidatoCompetencia = new CandidatoCompetenciaServico()
         this.entradaCandidatoViews = entradaCandidatoViews
         scanner = new Scanner(System.in)
     }
@@ -50,11 +50,11 @@ class EditarPerfilCandidatoView {
     }
 
     private void verPerfil() {
-        PessoaFisica candidato = ServicoLogin.getCandidato()
+        PessoaFisica candidato = LoginServico.getCandidato()
         println(candidato)
         println("Competêcias")
         ArrayList<Competencia> listar = servicoCandidatoCompetencia.listarCompetencia(
-                ServicoLogin.candidato.getCpf()
+                LoginServico.candidato.getCpf()
         )
         for (Competencia com : listar) {
             println("Id " + com.getId() + ":" + com.getDescricao())
@@ -62,7 +62,7 @@ class EditarPerfilCandidatoView {
     }
 
     private void menuEditarCompenteciaDescricao() {
-        candidato.cpf = ServicoLogin.candidato.cpf
+        candidato.cpf = LoginServico.candidato.cpf
         opcao = input.validaEntradaDeInteiro("1- Editar detalhes | 2- Editar Competencia | 3- Voltar",
                 1, 3)
         if (opcao == 1) {
@@ -76,7 +76,7 @@ class EditarPerfilCandidatoView {
         PessoaFisica candidato = entradaCandidatoViews.imformacoesCandidato()
         boolean vericacaoAtualizacao = servicoCandidato.atualizar(candidato)
         if (vericacaoAtualizacao) {
-            ServicoLogin.setCandidato(candidato)
+            LoginServico.setCandidato(candidato)
             println("O candidato foi atualizando com sucesso")
         } else {
             println("tente novamente")
@@ -106,7 +106,7 @@ class EditarPerfilCandidatoView {
         opcao = input.validaEntradaDeInteiro(
                 "Certeza que deseja exluir perfil:\n 1- Sim | 2- Não", 1, 2)
         if (opcao == 1){
-            servicoCandidato.deletar(ServicoLogin.getCandidato().cpf)
+            servicoCandidato.deletar(LoginServico.getCandidato().cpf)
             println("Apagado com sucesso")
             return true
         }

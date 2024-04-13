@@ -1,13 +1,13 @@
 package org.example.linketinder.database.views
 
 import org.example.linketinder.database.modelos.Vaga
-import org.example.linketinder.database.servicos.ServicoLogin
-import org.example.linketinder.database.servicos.ServicoVaga
+import org.example.linketinder.database.servicos.LoginServico
+import org.example.linketinder.database.servicos.VagaServico
 import org.example.linketinder.database.utils.InputValidation
 
 class VagaViews {
     private InputValidation inputValidation
-    private ServicoVaga servicoVaga
+    private VagaServico servicoVaga
     private Vaga vaga
     private Scanner scanner
     private Integer opcao
@@ -16,7 +16,7 @@ class VagaViews {
 
     VagaViews(EmpresaViews empresa) {
         inputValidation = new InputValidation()
-        servicoVaga = new ServicoVaga()
+        servicoVaga = new VagaServico()
         vaga = new Vaga()
         scanner = new Scanner(System.in)
         this.empresa = empresa
@@ -31,7 +31,7 @@ class VagaViews {
             if (opcao == 1) {
                 criarVaga()
             } else if(opcao == 2){
-                listar(ServicoLogin.getEmpresa().cnpj)
+                listar(LoginServico.getEmpresa().cnpj)
             } else if (opcao == 3) {
                 atualizar()
             } else if(opcao == 4) {
@@ -78,7 +78,7 @@ class VagaViews {
     }
 
     void atualizar(){
-        listar(ServicoLogin.empresa.getCnpj())
+        listar(LoginServico.empresa.getCnpj())
         println("Digite o id da vaga que deseja editar: ")
         Integer id_vaga = Integer.parseInt(scanner.nextLine())
         opcao = inputValidation.validaEntradaDeInteiro("1- Atualizar detalhes | 2- Atualizar Competencias" +
@@ -130,13 +130,13 @@ class VagaViews {
         vaga.setLocal(scanner.nextLine())
 
         vaga.setCnpj_empresa(
-                ServicoLogin.getEmpresa().cnpj
+                LoginServico.getEmpresa().cnpj
         )
         return vaga
     }
 
     void deletarVaga() {
-        boolean listarVaga = listar(ServicoLogin.getEmpresa().cnpj)
+        boolean listarVaga = listar(LoginServico.getEmpresa().cnpj)
         if (listarVaga) {
             println("Digite o id da vaga para excluir: ")
             Integer id_vaga = Integer.parseInt(scanner.nextLine())

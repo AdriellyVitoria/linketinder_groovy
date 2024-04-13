@@ -1,17 +1,17 @@
 package org.example.linketinder.database.servicos
 
-import org.example.linketinder.database.database.ServicoConectarBanco
+import org.example.linketinder.database.database.ConectarBancoServico
 import org.example.linketinder.database.modelos.Competencia
 
 import java.sql.Connection
 import java.sql.PreparedStatement
 import java.sql.ResultSet
 
-class ServicoCandidatoCompetencia {
-    private ServicoConectarBanco servicoConectar
+class CandidatoCompetenciaServico {
+    private ConectarBancoServico servicoConectar
 
-    ServicoCandidatoCompetencia(){
-        servicoConectar = new ServicoConectarBanco()
+    CandidatoCompetenciaServico(){
+        servicoConectar = new ConectarBancoServico()
     }
 
     String montarQueryBuscarPorCpf() {

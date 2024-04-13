@@ -1,27 +1,27 @@
 package org.example.linketinder.database.views
 
-import org.example.linketinder.database.factorys.ServicoCandidatoFactory
+import org.example.linketinder.database.factorys.CandidatoServicoFactory
 import org.example.linketinder.database.modelos.Vaga
-import org.example.linketinder.database.servicos.ServicoCandidato
-import org.example.linketinder.database.servicos.ServicoCandidatoVaga
-import org.example.linketinder.database.servicos.ServicoLogin
-import org.example.linketinder.database.servicos.ServicoVaga
+import org.example.linketinder.database.servicos.CandidatoServico
+import org.example.linketinder.database.servicos.CandidatoVagaServico
+import org.example.linketinder.database.servicos.LoginServico
+import org.example.linketinder.database.servicos.VagaServico
 import org.example.linketinder.database.utils.InputValidation
 
 class CandidatoViews {
     private Integer opcao
     private InputValidation input
-    private ServicoCandidato servicoCandidato
-    private ServicoVaga servicoVaga
-    private ServicoCandidatoVaga servicoCandidatoVaga
+    private CandidatoServico servicoCandidato
+    private VagaServico servicoVaga
+    private CandidatoVagaServico servicoCandidatoVaga
     private EditarPerfilCandidatoView editarPerfilCandidatoView
     private Scanner scanner
 
     CandidatoViews(EntradaCandidatoViews entradaCandidatoViews){
         input = new InputValidation()
-        servicoCandidato = ServicoCandidatoFactory.criarInstancia()
-        servicoVaga =  new ServicoVaga()
-        servicoCandidatoVaga = new ServicoCandidatoVaga()
+        servicoCandidato = CandidatoServicoFactory.criarInstancia()
+        servicoVaga =  new VagaServico()
+        servicoCandidatoVaga = new CandidatoVagaServico()
         editarPerfilCandidatoView = new EditarPerfilCandidatoView(entradaCandidatoViews)
         scanner = new Scanner(System.in)
     }
@@ -38,12 +38,12 @@ class CandidatoViews {
             } else if(opcao == 3) {
                 boolean delete = editarPerfilCandidatoView.editarPerfil()
                 if (delete) {
-                    ServicoLogin.logout()
+                    LoginServico.logout()
                     break
                 }
             } else {
                 println("Saindo do programa...")
-                ServicoLogin.logout()
+                LoginServico.logout()
                 break
             }
         }
@@ -71,7 +71,7 @@ class CandidatoViews {
     }
 
     void listarVagasAplicadas() {
-        ArrayList<Vaga> listaAplicada = servicoCandidatoVaga.listarPorCpf(ServicoLogin.candidato.getCpf())
+        ArrayList<Vaga> listaAplicada = servicoCandidatoVaga.listarPorCpf(LoginServico.candidato.getCpf())
         for (Vaga verVagas : listaAplicada) {
             println("Id " + verVagas.getId() + " : " + verVagas.getTitulo())
             println("Descricao: " + verVagas.getDescricao())

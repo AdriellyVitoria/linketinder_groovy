@@ -1,17 +1,19 @@
 package org.example.linketinder.database.servicos
 
-import org.example.linketinder.database.database.ServicoConectarBanco
+import org.example.linketinder.database.database.ConectarBancoServico
 import org.example.linketinder.database.modelos.PessoaJuridica
 
 import java.sql.Connection
 import java.sql.PreparedStatement
 import java.sql.ResultSet
 
-class ServicoEmpresa {
-    private ServicoConectarBanco servicoConectar
+class EmpresaServico {
+    private ConectarBancoServico servicoConectar
 
-    ServicoEmpresa() {
-        servicoConectar = new ServicoConectarBanco()
+    EmpresaServico(
+            ConectarBancoServico servicoConectarBanco
+    ) {
+        servicoConectar = servicoConectarBanco
     }
 
     String verificacaoParaLogin(){
