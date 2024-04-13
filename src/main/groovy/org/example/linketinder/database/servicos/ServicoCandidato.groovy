@@ -11,9 +11,12 @@ class ServicoCandidato {
     private ServicoConectarBanco servicoConectar
     private ServicoCandidatoCompetencia servicoCompetencia
 
-    ServicoCandidato(){
-        servicoCompetencia = new ServicoCandidatoCompetencia()
-        servicoConectar = new ServicoConectarBanco()
+    ServicoCandidato(
+            ServicoCandidatoCompetencia servicoCandidatoCompetencia,
+            ServicoConectarBanco servicoConectarBanco
+    ) {
+        servicoCompetencia = servicoCandidatoCompetencia
+        servicoConectar = servicoConectarBanco
     }
 
     String verificacaoParalogin() {

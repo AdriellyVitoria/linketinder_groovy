@@ -21,7 +21,7 @@ ext {
 sourceCompatibility = '17'
 targetCompatibility = '17'
 
-tasks.withType(JavaCompile) {
+tasks.withType(JavaCompile).configureEach {
   options.encoding = 'UTF-8'
 }
 
@@ -37,14 +37,14 @@ javafx {
 
 dependencies {
   implementation('org.apache.groovy:groovy:4.0.10')
-
-  testImplementation("org.junit.jupiter:junit-jupiter-api:${junitVersion}")
+  testImplementation("junit:junit:4.13.2")
+  testImplementation 'org.mockito:mockito-core:3.12.4'
   implementation group: 'org.postgresql', name: 'postgresql', version: '42.7.2'
-  testRuntimeOnly("org.junit.jupiter:junit-jupiter-engine:${junitVersion}")
+  testRuntimeOnly("junit:junit:4.13.2")
 }
 
 test {
-useJUnitPlatform()}
+useJUnit()}
 
 jlink {
   imageZip = project.file("${buildDir}/distributions/app-${javafx.platform.classifier}.zip")

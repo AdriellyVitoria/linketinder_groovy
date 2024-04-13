@@ -8,7 +8,6 @@ import java.sql.PreparedStatement
 import java.sql.ResultSet
 
 class ServicoCandidatoCompetencia {
-
     private ServicoConectarBanco servicoConectar
 
     ServicoCandidatoCompetencia(){

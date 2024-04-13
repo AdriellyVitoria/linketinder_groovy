@@ -1,5 +1,6 @@
 package org.example.linketinder.database.views
 
+import org.example.linketinder.database.factorys.ServicoCompetenciaFactory
 import org.example.linketinder.database.modelos.Competencia
 import org.example.linketinder.database.servicos.ServicoCandidatoCompetencia
 import org.example.linketinder.database.servicos.ServicoCompetencia
@@ -21,7 +22,7 @@ class CompetenciaViews {
         candidatoCompetencia = new ServicoCandidatoCompetencia()
         input = new InputValidation()
         scanner = new Scanner(System.in)
-        servicoCompetencia = new ServicoCompetencia()
+        servicoCompetencia = ServicoCompetenciaFactory.criarInstancia()
         vagaCompetencia = new  ServicoVagaCompetencia()
     }
 

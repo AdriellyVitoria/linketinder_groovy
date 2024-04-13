@@ -1,5 +1,6 @@
 package org.example.linketinder.database.views
 
+import org.example.linketinder.database.factorys.ServicoCandidatoFactory
 import org.example.linketinder.database.modelos.Competencia
 import org.example.linketinder.database.modelos.PessoaFisica
 import org.example.linketinder.database.servicos.ServicoCandidato
@@ -19,7 +20,7 @@ class EditarPerfilCandidatoView {
 
     EditarPerfilCandidatoView(EntradaCandidatoViews entradaCandidatoViews){
         input = new InputValidation()
-        servicoCandidato = new ServicoCandidato()
+        servicoCandidato = ServicoCandidatoFactory.criarInstancia()
         candidato = new PessoaFisica()
         competenciaViews = new CompetenciaViews()
         servicoCandidatoCompetencia = new ServicoCandidatoCompetencia()

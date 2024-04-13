@@ -1,5 +1,6 @@
 package org.example.linketinder.database.views
 
+import org.example.linketinder.database.factorys.ServicoCandidatoFactory
 import org.example.linketinder.database.modelos.PessoaFisica
 import org.example.linketinder.database.servicos.ServicoCandidato
 import org.example.linketinder.database.servicos.ServicoLogin
@@ -17,7 +18,7 @@ class EntradaCandidatoViews {
     EntradaCandidatoViews(){
         input = new InputValidation()
         candidato = new PessoaFisica()
-        servicoCandidato = new ServicoCandidato()
+        servicoCandidato = ServicoCandidatoFactory.criarInstancia()
         candidatoViews = new CandidatoViews(this)
         competenciaViews = new CompetenciaViews()
         scanner = new Scanner(System.in)

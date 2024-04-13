@@ -10,8 +10,8 @@ import java.sql.ResultSet
 class ServicoCompetencia {
     private ServicoConectarBanco servicoConectar
 
-    ServicoCompetencia(){
-        servicoConectar = new ServicoConectarBanco()
+    ServicoCompetencia(ServicoConectarBanco servicoConectarBanco){
+        servicoConectar = servicoConectarBanco
     }
 
     String montarQueryBuscarTodos() {
@@ -61,5 +61,6 @@ class ServicoCompetencia {
         }catch(Exception exception){
             System.err.println("Erro em listar");
         }
+        return null
     }
 }

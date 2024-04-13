@@ -43,7 +43,7 @@ class ServicoEmpresa {
         salvar.setString(3, empresa.getEmail());
         salvar.setString(4, empresa.getSenha());
         salvar.setString(5, empresa.getTelefone());
-        salvar.setString(6,empresa.getCep());
+        salvar.setString(6, empresa.getCep());
         salvar.setString(7, empresa.getEstado());
         salvar.setString(8, empresa.getPais());
         salvar.setString(9, empresa.getDescricao());

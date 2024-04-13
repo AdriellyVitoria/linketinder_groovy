@@ -1,5 +1,6 @@
 package org.example.linketinder.database.views
 
+import org.example.linketinder.database.factorys.ServicoCandidatoFactory
 import org.example.linketinder.database.modelos.Vaga
 import org.example.linketinder.database.servicos.ServicoCandidato
 import org.example.linketinder.database.servicos.ServicoCandidatoVaga
@@ -18,7 +19,7 @@ class CandidatoViews {
 
     CandidatoViews(EntradaCandidatoViews entradaCandidatoViews){
         input = new InputValidation()
-        servicoCandidato = new ServicoCandidato()
+        servicoCandidato = ServicoCandidatoFactory.criarInstancia()
         servicoVaga =  new ServicoVaga()
         servicoCandidatoVaga = new ServicoCandidatoVaga()
         editarPerfilCandidatoView = new EditarPerfilCandidatoView(entradaCandidatoViews)
