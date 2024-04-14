@@ -65,7 +65,11 @@ class CandidatoViews {
             if (opcao == 1){
                 println("Digite o id da vaga para aplicar: ")
                 Integer vagaAplicar = Integer.parseInt( scanner.nextLine())
-                servicoCandidatoVaga.aplicar(vagaAplicar)
+                String cpf = LoginManager.candidato.getCpf()
+                boolean candidatoInserirComSucesso = servicoCandidatoVaga.aplicar(vagaAplicar, cpf)
+                if (candidatoInserirComSucesso){
+                    println("Aplicação em vaga com sucesso")
+                }
             } else {
                 break
             }

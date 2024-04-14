@@ -38,7 +38,7 @@ class CandidatoVagaServico {
                 "WHERE cv.cpf_candidato = ?"
     }
 
-    void aplicar(Integer id_vaga){
+    boolean aplicar(Integer id_vaga, String cpf){
         String APLICAR = "insert into linlketinder.candidato_vaga(cpf_candidato, id_vaga) " +
                 " Values (?, ?)"
         try {
@@ -48,7 +48,6 @@ class CandidatoVagaServico {
                     ResultSet.TYPE_SCROLL_INSENSITIVE,
                     ResultSet.CONCUR_READ_ONLY
             )
-            String cpf = LoginManager.candidato.getCpf()
 
             ResultSet res = vaga.executeQuery()
             res.last()
@@ -63,6 +62,7 @@ class CandidatoVagaServico {
                 del.close()
                 servicoConectar.desconectar(conn)
             }
+            return true
         } catch (Exception exception) {
             System.err.println("Erro ao aplicar para vaga")
             if (exception.message.contains("candidato_vaga_id_vaga_fkey")){
@@ -72,6 +72,7 @@ class CandidatoVagaServico {
                 System.err.println("Voce já aplicou nessa vaga")
             }
         }
+        return false
     }
 
     ArrayList<Vaga>  listarPorCpf(String cpf_candidato) {
@@ -108,5 +109,6 @@ class CandidatoVagaServico {
         }catch(Exception exception){
             System.err.println("Erro em listar" )
         }
+        return null
     }
 }
