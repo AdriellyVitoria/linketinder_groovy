@@ -1,10 +1,12 @@
 package org.example.linketinder.database.views
 
 import org.example.linketinder.database.factorys.CandidatoServicoFactory
+import org.example.linketinder.database.factorys.CandidatoVagaServicoFactory
+import org.example.linketinder.database.factorys.VagaServicoFactory
 import org.example.linketinder.database.modelos.Vaga
 import org.example.linketinder.database.servicos.CandidatoServico
 import org.example.linketinder.database.servicos.CandidatoVagaServico
-import org.example.linketinder.database.servicos.LoginServico
+import org.example.linketinder.database.utils.LoginManager
 import org.example.linketinder.database.servicos.VagaServico
 import org.example.linketinder.database.utils.InputValidation
 
@@ -20,8 +22,8 @@ class CandidatoViews {
     CandidatoViews(EntradaCandidatoViews entradaCandidatoViews){
         input = new InputValidation()
         servicoCandidato = CandidatoServicoFactory.criarInstancia()
-        servicoVaga =  new VagaServico()
-        servicoCandidatoVaga = new CandidatoVagaServico()
+        servicoVaga =  VagaServicoFactory.criarInstancia()
+        servicoCandidatoVaga = CandidatoVagaServicoFactory.criarInstancia()
         editarPerfilCandidatoView = new EditarPerfilCandidatoView(entradaCandidatoViews)
         scanner = new Scanner(System.in)
     }
@@ -38,12 +40,12 @@ class CandidatoViews {
             } else if(opcao == 3) {
                 boolean delete = editarPerfilCandidatoView.editarPerfil()
                 if (delete) {
-                    LoginServico.logout()
+                    LoginManager.logout()
                     break
                 }
             } else {
                 println("Saindo do programa...")
-                LoginServico.logout()
+                LoginManager.logout()
                 break
             }
         }
@@ -71,7 +73,7 @@ class CandidatoViews {
     }
 
     void listarVagasAplicadas() {
-        ArrayList<Vaga> listaAplicada = servicoCandidatoVaga.listarPorCpf(LoginServico.candidato.getCpf())
+        ArrayList<Vaga> listaAplicada = servicoCandidatoVaga.listarPorCpf(LoginManager.candidato.getCpf())
         for (Vaga verVagas : listaAplicada) {
             println("Id " + verVagas.getId() + " : " + verVagas.getTitulo())
             println("Descricao: " + verVagas.getDescricao())

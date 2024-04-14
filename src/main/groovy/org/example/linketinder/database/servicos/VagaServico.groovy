@@ -1,6 +1,7 @@
 package org.example.linketinder.database.servicos
 
 import org.example.linketinder.database.database.ConectarBancoServico
+import org.example.linketinder.database.factorys.VagaCompetenciaServicoFactory
 import org.example.linketinder.database.modelos.Vaga
 
 import java.sql.Connection
@@ -11,9 +12,12 @@ class VagaServico {
     private ConectarBancoServico servicoConectar
     private VagaCompetenciaServico servicoVagaCompetencia
 
-    VagaServico(){
-        servicoConectar = new ConectarBancoServico()
-        servicoVagaCompetencia = new VagaCompetenciaServico()
+    VagaServico(
+            VagaCompetenciaServico vagaCompetenciaServico,
+            ConectarBancoServico conectarBancoServico
+    ){
+        servicoConectar = conectarBancoServico
+        servicoVagaCompetencia = vagaCompetenciaServico
     }
 
     String montarQueryBuscarPorId() {

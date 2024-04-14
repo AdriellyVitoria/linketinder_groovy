@@ -10,7 +10,9 @@ import java.sql.ResultSet
 class CompetenciaServico {
     private ConectarBancoServico servicoConectar
 
-    CompetenciaServico(ConectarBancoServico servicoConectarBanco){
+    CompetenciaServico(
+            ConectarBancoServico servicoConectarBanco
+    ){
         servicoConectar = servicoConectarBanco
     }
 

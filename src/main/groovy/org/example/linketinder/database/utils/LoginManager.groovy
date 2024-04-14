@@ -1,9 +1,9 @@
-package org.example.linketinder.database.servicos
+package org.example.linketinder.database.utils
 
 import org.example.linketinder.database.modelos.PessoaFisica
 import org.example.linketinder.database.modelos.PessoaJuridica
 
-class LoginServico {
+class LoginManager {
     static PessoaJuridica empresa
     static PessoaFisica candidato
 

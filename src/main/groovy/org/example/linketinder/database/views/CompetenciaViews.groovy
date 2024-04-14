@@ -1,10 +1,12 @@
 package org.example.linketinder.database.views
 
+import org.example.linketinder.database.factorys.CandidatoCompetenciaServicoFactory
 import org.example.linketinder.database.factorys.CompetenciaServicoFactory
+import org.example.linketinder.database.factorys.VagaCompetenciaServicoFactory
 import org.example.linketinder.database.modelos.Competencia
 import org.example.linketinder.database.servicos.CandidatoCompetenciaServico
 import org.example.linketinder.database.servicos.CompetenciaServico
-import org.example.linketinder.database.servicos.LoginServico
+import org.example.linketinder.database.utils.LoginManager
 import org.example.linketinder.database.servicos.VagaCompetenciaServico
 import org.example.linketinder.database.utils.InputValidation
 
@@ -19,11 +21,11 @@ class CompetenciaViews {
 
     CompetenciaViews() {
         competencia = new Competencia()
-        candidatoCompetencia = new CandidatoCompetenciaServico()
+        candidatoCompetencia = CandidatoCompetenciaServicoFactory.criarInstancia()
         input = new InputValidation()
         scanner = new Scanner(System.in)
         servicoCompetencia = CompetenciaServicoFactory.criarInstancia()
-        vagaCompetencia = new  VagaCompetenciaServico()
+        vagaCompetencia = VagaCompetenciaServicoFactory.criarInstancia()
     }
 
     void listarCompetencia() {
@@ -76,14 +78,14 @@ class CompetenciaViews {
 
     void deletarCompetenciaCandidato(){
         ArrayList listar = candidatoCompetencia.listarCompetencia(
-                LoginServico.candidato.getCpf()
+                LoginManager.candidato.getCpf()
         )
         for (Competencia com : listar) {
             println("Id " + com.getId() + ":" + com.getDescricao())
         }
         println("Digite o id competencia que deseja apagar:")
         Integer idApagar = Integer.parseInt(scanner.nextLine())
-        boolean apagarCompetencia = candidatoCompetencia.deletar(idApagar, LoginServico.candidato.getCpf())
+        boolean apagarCompetencia = candidatoCompetencia.deletar(idApagar, LoginManager.candidato.getCpf())
         if (apagarCompetencia){
             println("Apagando com sucesso")
         }

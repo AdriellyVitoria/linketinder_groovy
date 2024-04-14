@@ -1,7 +1,8 @@
 package org.example.linketinder.database.views
 
+import org.example.linketinder.database.factorys.VagaServicoFactory
 import org.example.linketinder.database.modelos.Vaga
-import org.example.linketinder.database.servicos.LoginServico
+import org.example.linketinder.database.utils.LoginManager
 import org.example.linketinder.database.servicos.VagaServico
 import org.example.linketinder.database.utils.InputValidation
 
@@ -16,7 +17,7 @@ class VagaViews {
 
     VagaViews(EmpresaViews empresa) {
         inputValidation = new InputValidation()
-        servicoVaga = new VagaServico()
+        servicoVaga = VagaServicoFactory.criarInstancia()
         vaga = new Vaga()
         scanner = new Scanner(System.in)
         this.empresa = empresa
@@ -31,7 +32,7 @@ class VagaViews {
             if (opcao == 1) {
                 criarVaga()
             } else if(opcao == 2){
-                listar(LoginServico.getEmpresa().cnpj)
+                listar(LoginManager.getEmpresa().cnpj)
             } else if (opcao == 3) {
                 atualizar()
             } else if(opcao == 4) {
@@ -78,7 +79,7 @@ class VagaViews {
     }
 
     void atualizar(){
-        listar(LoginServico.empresa.getCnpj())
+        listar(LoginManager.empresa.getCnpj())
         println("Digite o id da vaga que deseja editar: ")
         Integer id_vaga = Integer.parseInt(scanner.nextLine())
         opcao = inputValidation.validaEntradaDeInteiro("1- Atualizar detalhes | 2- Atualizar Competencias" +
@@ -130,13 +131,13 @@ class VagaViews {
         vaga.setLocal(scanner.nextLine())
 
         vaga.setCnpj_empresa(
-                LoginServico.getEmpresa().cnpj
+                LoginManager.getEmpresa().cnpj
         )
         return vaga
     }
 
     void deletarVaga() {
-        boolean listarVaga = listar(LoginServico.getEmpresa().cnpj)
+        boolean listarVaga = listar(LoginManager.getEmpresa().cnpj)
         if (listarVaga) {
             println("Digite o id da vaga para excluir: ")
             Integer id_vaga = Integer.parseInt(scanner.nextLine())

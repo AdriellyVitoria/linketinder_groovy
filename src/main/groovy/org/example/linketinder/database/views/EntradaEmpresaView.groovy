@@ -3,7 +3,7 @@ package org.example.linketinder.database.views
 import org.example.linketinder.database.factorys.EmpresaServicoFactory
 import org.example.linketinder.database.modelos.PessoaJuridica
 import org.example.linketinder.database.servicos.EmpresaServico
-import org.example.linketinder.database.servicos.LoginServico
+import org.example.linketinder.database.utils.LoginManager
 import org.example.linketinder.database.utils.InputValidation
 
 class EntradaEmpresaView {
@@ -36,7 +36,7 @@ class EntradaEmpresaView {
                 PessoaJuridica empresa = servicoEmpresa.entradaEmpresa(email_empresa, senha_empresa)
 
                 if (empresa != null) {
-                    LoginServico.setEmpresa(empresa)
+                    LoginManager.setEmpresa(empresa)
                     empresaViews.menuPrincipalEmpresa()
                     break
                 } else {
@@ -50,7 +50,7 @@ class EntradaEmpresaView {
                 boolean inserir = servicoEmpresa.inserir(imformacoesEmpresa())
                 if (inserir){
                     println("Empresa " + empresa.getNome() + " foi inserido com sucesso")
-                    LoginServico.setEmpresa(empresa)
+                    LoginManager.setEmpresa(empresa)
                     empresaViews.menuPrincipalEmpresa()
                     break
                 }

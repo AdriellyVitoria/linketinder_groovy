@@ -3,7 +3,7 @@ package org.example.linketinder.database.views
 import org.example.linketinder.database.factorys.EmpresaServicoFactory
 import org.example.linketinder.database.modelos.PessoaJuridica
 import org.example.linketinder.database.servicos.EmpresaServico
-import org.example.linketinder.database.servicos.LoginServico
+import org.example.linketinder.database.utils.LoginManager
 import org.example.linketinder.database.utils.InputValidation
 
 class EmpresaViews {
@@ -33,12 +33,12 @@ class EmpresaViews {
             } else if (opcao == 2){
                 boolean delete = menuEditarPerfilEmpresa()
                 if (delete) {
-                    LoginServico.logout()
+                    LoginManager.logout()
                     break
                 }
             } else {
                 println("Volte Sempre...")
-                LoginServico.logout()
+                LoginManager.logout()
                 break
             }
         }
@@ -50,7 +50,7 @@ class EmpresaViews {
                     "1- Ver perfil\n2- Editar perfil\n3- Excluir Perfil\n4- Voltar para o menu principal",
                     1, 4)
             if (opcao == 1){
-                PessoaJuridica empresa = LoginServico.getEmpresa()
+                PessoaJuridica empresa = LoginManager.getEmpresa()
                 println(empresa)
             } else if (opcao == 2){
                 EditarPerfil()
@@ -68,12 +68,12 @@ class EmpresaViews {
 
     void EditarPerfil() {
         empresa.setCnpj(
-                LoginServico.getEmpresa().cnpj
+                LoginManager.getEmpresa().cnpj
         )
         PessoaJuridica empresa = entradaEmpresaView.imformacoesEmpresa()
         String verificacaoAtualizacao = servicoEmpresa.atualizar(empresa)
         if (verificacaoAtualizacao) {
-            LoginServico.setEmpresa(empresa)
+            LoginManager.setEmpresa(empresa)
             println("A empresa foi atualizando com sucesso")
         } else {
             println("tente novamente")
@@ -84,7 +84,7 @@ class EmpresaViews {
         opcao = input.validaEntradaDeInteiro(
                 "Certeza que deseja exluir empresa:\n 1- Sim | 2- Não", 1, 2)
         if (opcao == 1){
-            String cnpj = LoginServico.getEmpresa().cnpj
+            String cnpj = LoginManager.getEmpresa().cnpj
             servicoEmpresa.deletar(cnpj)
             println("Apagado com sucesso")
             return true

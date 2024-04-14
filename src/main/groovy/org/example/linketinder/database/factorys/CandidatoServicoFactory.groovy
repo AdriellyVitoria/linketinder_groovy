@@ -6,7 +6,7 @@ import org.example.linketinder.database.servicos.CandidatoCompetenciaServico
 
 class CandidatoServicoFactory {
     static CandidatoServico criarInstancia() {
-        CandidatoCompetenciaServico servicoCandidatoCompetencia = new CandidatoCompetenciaServico()
+        CandidatoCompetenciaServico servicoCandidatoCompetencia = CandidatoCompetenciaServicoFactory.criarInstancia()
         ConectarBancoServico servicoConectarBanco = new ConectarBancoServico()
         return new CandidatoServico(servicoCandidatoCompetencia, servicoConectarBanco)
     }

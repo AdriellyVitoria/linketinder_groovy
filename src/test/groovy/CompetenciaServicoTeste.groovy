@@ -12,10 +12,10 @@ import static org.mockito.ArgumentMatchers.anyString
 import static org.mockito.Mockito.mock
 import static org.mockito.Mockito.when
 
-class ServicoCompetenciaTeste {
+class CompetenciaServicoTeste {
     private CompetenciaServico servicoCompetencia
 
-    ServicoCompetenciaTeste() {
+    CompetenciaServicoTeste() {
         def connectionMock = mock(Connection.class)
         def servicoConectarBancoMock = mock(ConectarBancoServico.class)
         def prepareStatementMock = mock(PreparedStatement.class)

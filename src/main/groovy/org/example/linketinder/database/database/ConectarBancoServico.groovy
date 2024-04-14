@@ -5,6 +5,7 @@ import java.sql.SQLException
 import java.sql.DriverManager
 
 class ConectarBancoServico {
+
     Connection conectar() {
         Properties props = new Properties();
         props.setProperty("user", "postgres");

@@ -3,7 +3,7 @@ package org.example.linketinder.database.views
 import org.example.linketinder.database.factorys.CandidatoServicoFactory
 import org.example.linketinder.database.modelos.PessoaFisica
 import org.example.linketinder.database.servicos.CandidatoServico
-import org.example.linketinder.database.servicos.LoginServico
+import org.example.linketinder.database.utils.LoginManager
 import org.example.linketinder.database.utils.InputValidation
 
 class EntradaCandidatoViews {
@@ -51,7 +51,7 @@ class EntradaCandidatoViews {
         if (inserir) {
             boolean addCompetencias = competenciaViews.inserirCompetenciaCandidato(candidato.cpf)
             if (addCompetencias) {
-                LoginServico.setCandidato(
+                LoginManager.setCandidato(
                         servicoCandidato.entradaCandidato(candidato.getEmail(), candidato.getSenha())
                 )
                 println("Candidato " + candidato.getNome() + " foi inserido com sucesso")
@@ -71,7 +71,7 @@ class EntradaCandidatoViews {
         String senha_empresa = scanner.nextLine()
         PessoaFisica candidato = servicoCandidato.entradaCandidato(email_empresa, senha_empresa)
         if (candidato != null) {
-            LoginServico.setCandidato(candidato)
+            LoginManager.setCandidato(candidato)
             candidatoViews.menuPrincipalCandidato()
         } else {
             println("Email ou senha incorretos")

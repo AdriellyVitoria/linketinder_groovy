@@ -10,8 +10,10 @@ import java.sql.ResultSet
 class CandidatoCompetenciaServico {
     private ConectarBancoServico servicoConectar
 
-    CandidatoCompetenciaServico(){
-        servicoConectar = new ConectarBancoServico()
+    CandidatoCompetenciaServico(
+            ConectarBancoServico conectarBancoServico
+    ){
+        servicoConectar = conectarBancoServico
     }
 
     String montarQueryBuscarPorCpf() {
