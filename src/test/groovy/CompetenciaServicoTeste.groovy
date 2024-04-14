@@ -1,4 +1,5 @@
 import org.example.linketinder.database.database.ConectarBancoServico
+import org.example.linketinder.database.modelos.Competencia
 import org.example.linketinder.database.servicos.CompetenciaServico
 import org.junit.Test
 import org.junit.Assert
@@ -16,10 +17,10 @@ class CompetenciaServicoTeste {
     private CompetenciaServico servicoCompetencia
 
     CompetenciaServicoTeste() {
-        def connectionMock = mock(Connection.class)
-        def servicoConectarBancoMock = mock(ConectarBancoServico.class)
-        def prepareStatementMock = mock(PreparedStatement.class)
-        def resultSetMock = mock(ResultSet.class)
+        Connection connectionMock = mock(Connection.class)
+        ConectarBancoServico servicoConectarBancoMock = mock(ConectarBancoServico.class)
+        PreparedStatement prepareStatementMock = mock(PreparedStatement.class)
+        ResultSet resultSetMock = mock(ResultSet.class)
 
         when(servicoConectarBancoMock.conectar()).thenReturn(connectionMock)
         when(connectionMock.prepareStatement(anyString())).thenReturn(prepareStatementMock)
@@ -40,7 +41,7 @@ class CompetenciaServicoTeste {
 
     @Test
     void testeListarTodasCompetencias() {
-        def retorno = servicoCompetencia.listarTodas()
+        ArrayList<Competencia> retorno = servicoCompetencia.listarTodas()
 
         Assert.assertNotNull(retorno)
     }

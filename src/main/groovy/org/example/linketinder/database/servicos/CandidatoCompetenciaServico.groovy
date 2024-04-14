@@ -56,8 +56,8 @@ class CandidatoCompetenciaServico {
             return competencias
         } catch (Exception exception) {
             System.err.println("Erro ao buscar competencia")
-            System.exit(-42)
         }
+        return null
     }
 
     boolean deletar(Integer id_competencia, String cpf_candidato){
@@ -89,6 +89,7 @@ class CandidatoCompetenciaServico {
         } catch (Exception exception) {
             System.err.println("Voce não possue essa competencia")
         }
+        return false
     }
 
     boolean inserir(Integer id_competencia, String cpf_candidato){

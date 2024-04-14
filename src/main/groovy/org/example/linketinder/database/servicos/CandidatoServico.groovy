@@ -44,9 +44,9 @@ class CandidatoServico {
             candidato.setString(2, senha_candidato)
             ResultSet res = candidato.executeQuery()
 
-            res.last();
-            int qtd = res.getRow();
-            res.beforeFirst();
+            res.last()
+            int qtd = res.getRow()
+            res.beforeFirst()
 
             if (qtd > 0) {
                 while (res.next()) {
@@ -68,7 +68,6 @@ class CandidatoServico {
             }
         } catch (Exception exception){
             System.err.println("Erro em entrar");
-
         }
         return null
     }
@@ -157,6 +156,7 @@ class CandidatoServico {
             del.executeUpdate()
             del.close()
             servicoConectar.desconectar(conn)
+            return true
         } catch (Exception exception) {
             System.err.println("Erro em deletar Competencia Candidato");
         }

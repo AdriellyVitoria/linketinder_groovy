@@ -147,7 +147,7 @@ class EmpresaServico {
         return false
     }
 
-    void deletar(String cnpj_empresa) {
+    boolean deletar(String cnpj_empresa) {
         String DELETAR = "DELETE FROM linlketinder.empresa WHERE cnpj_empresa=?"
         try {
             Connection conn = servicoConectar.conectar();
@@ -171,9 +171,9 @@ class EmpresaServico {
                 servicoConectar.desconectar(conn)
             }
         } catch (Exception exception) {
-            exception.printStackTrace();
             System.err.println("Erro em deletar Competencia Empresa");
             System.exit(-42);
         }
+        return null
     }
 }

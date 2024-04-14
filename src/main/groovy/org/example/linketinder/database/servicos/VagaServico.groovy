@@ -50,7 +50,7 @@ class VagaServico {
         servicoConectar.desconectar(conn);
     }
 
-    void criar(Vaga vaga) {
+    boolean criar(Vaga vaga) {
         String INSERIR = "INSERT INTO linlketinder.vaga" +
                 "(descricao_vaga, titulo_vaga, local_vaga, cnpj_empresa)\n" +
                 "VALUES (?, ?, ?, ?)"
@@ -60,6 +60,7 @@ class VagaServico {
             System.err.println("Erro em criar" )
             System.exit(-42);
         }
+        return null
     }
 
     Integer buscaIdVagaCriada() {
@@ -117,10 +118,9 @@ class VagaServico {
             }
             return vagas
         }catch(Exception exception){
-            exception.printStackTrace();
             System.err.println("Erro em listar" )
-            System.exit(-42);
         }
+        return null
     }
 
     ArrayList<Vaga> listar(String cnpj_empresa) {
@@ -154,10 +154,9 @@ class VagaServico {
             }
             return vagas
         } catch (Exception exception) {
-            exception.printStackTrace();
             System.err.println("Erro em listar" )
-            System.exit(-42);
         }
+        return null
     }
 
     boolean atualizar(Integer id_vaga, Vaga vaga) {
@@ -199,7 +198,7 @@ class VagaServico {
         return null
     }
 
-    void deletar(Integer id_vaga) {
+    boolean deletar(Integer id_vaga) {
         String DELETAR = "DELETE FROM linlketinder.vaga WHERE id_vaga =?"
 
         try {
@@ -212,5 +211,6 @@ class VagaServico {
         } catch (Exception exception) {
             System.err.println("Erro em deletar vaga");
         }
+        return null
     }
 }

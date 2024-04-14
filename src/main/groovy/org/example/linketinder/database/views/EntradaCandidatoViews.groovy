@@ -70,11 +70,14 @@ class EntradaCandidatoViews {
         println("Senha: ")
         String senha_empresa = scanner.nextLine()
         PessoaFisica candidato = servicoCandidato.entradaCandidato(email_empresa, senha_empresa)
+
         if (candidato != null) {
             LoginManager.setCandidato(candidato)
             candidatoViews.menuPrincipalCandidato()
+            return true
         } else {
             println("Email ou senha incorretos")
+            return false
         }
     }
 
