@@ -1,6 +1,6 @@
-import org.example.linketinder.database.database.ConectarBanco
-import org.example.linketinder.database.modelos.PessoaJuridica
-import org.example.linketinder.database.servicos.EmpresaServico
+import org.example.linketinder.database.ConectarBanco
+import org.example.linketinder.modelos.PessoaJuridica
+import org.example.linketinder.servicos.EmpresaServico
 import org.junit.Assert
 import org.junit.Test
 

@@ -1,6 +1,6 @@
-import org.example.linketinder.database.database.ConectarBanco
-import org.example.linketinder.database.modelos.Competencia
-import org.example.linketinder.database.servicos.CompetenciaServico
+import org.example.linketinder.database.ConectarBanco
+import org.example.linketinder.modelos.Competencia
+import org.example.linketinder.servicos.CompetenciaServico
 import org.junit.Test
 import org.junit.Assert
 

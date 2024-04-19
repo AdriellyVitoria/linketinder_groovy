@@ -1,7 +1,7 @@
-import org.example.linketinder.database.database.ConectarBanco
-import org.example.linketinder.database.modelos.PessoaFisica
-import org.example.linketinder.database.servicos.CandidatoCompetenciaServico
-import org.example.linketinder.database.servicos.CandidatoServico
+import org.example.linketinder.database.ConectarBanco
+import org.example.linketinder.modelos.PessoaFisica
+import org.example.linketinder.servicos.CandidatoCompetenciaServico
+import org.example.linketinder.servicos.CandidatoServico
 import org.junit.Assert
 import org.junit.Test
 
