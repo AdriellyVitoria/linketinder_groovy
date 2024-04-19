@@ -1,6 +1,6 @@
 package org.example.linketinder.database.servicos
 
-import org.example.linketinder.database.database.ConectarBancoServico
+import org.example.linketinder.database.database.ConectarBanco
 import org.example.linketinder.database.modelos.Competencia
 
 import java.sql.Connection
@@ -8,10 +8,10 @@ import java.sql.PreparedStatement
 import java.sql.ResultSet
 
 class CompetenciaServico {
-    private ConectarBancoServico servicoConectar
+    private ConectarBanco servicoConectar
 
     CompetenciaServico(
-            ConectarBancoServico servicoConectarBanco
+            ConectarBanco servicoConectarBanco
     ){
         servicoConectar = servicoConectarBanco
     }
@@ -23,7 +23,7 @@ class CompetenciaServico {
     boolean inserir(String competencia) {
         String INSERIR = "INSERT INTO linlketinder.competencia(descricao_competencia) VALUES (?)"
         try {
-            Connection conn = servicoConectar.conectar()
+            Connection conn = servicoConectar.getConexao()
             PreparedStatement salvar = conn.prepareStatement(INSERIR)
             salvar.setString(1, competencia)
             salvar.executeUpdate();
@@ -37,7 +37,7 @@ class CompetenciaServico {
 
     ArrayList<Competencia> listarTodas() {
         try {
-            Connection conexao = servicoConectar.conectar()
+            Connection conexao = servicoConectar.getConexao()
             PreparedStatement empresa = conexao.prepareStatement(
                     montarQueryBuscarTodos(),
                     ResultSet.TYPE_SCROLL_INSENSITIVE,

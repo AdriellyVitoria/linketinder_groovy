@@ -1,7 +1,6 @@
 package org.example.linketinder.database.servicos
 
-import org.example.linketinder.database.database.ConectarBancoServico
-import org.example.linketinder.database.factorys.VagaCompetenciaServicoFactory
+import org.example.linketinder.database.database.ConectarBanco
 import org.example.linketinder.database.modelos.Vaga
 
 import java.sql.Connection
@@ -9,12 +8,12 @@ import java.sql.PreparedStatement
 import java.sql.ResultSet
 
 class VagaServico {
-    private ConectarBancoServico servicoConectar
+    private ConectarBanco servicoConectar
     private VagaCompetenciaServico servicoVagaCompetencia
 
     VagaServico(
             VagaCompetenciaServico vagaCompetenciaServico,
-            ConectarBancoServico conectarBancoServico
+            ConectarBanco conectarBancoServico
     ){
         servicoConectar = conectarBancoServico
         servicoVagaCompetencia = vagaCompetenciaServico
@@ -37,7 +36,7 @@ class VagaServico {
 
 
     void salvarImformacao(String comado, Vaga vaga){
-        Connection conn = servicoConectar.conectar()
+        Connection conn = servicoConectar.getConexao()
         PreparedStatement salvar = conn.prepareStatement(comado);
 
         salvar.setString(1, vaga.getDescricao())
@@ -68,7 +67,7 @@ class VagaServico {
                 "ORDER BY v.id_vaga DESC " +
                 "LIMIT 1"
 
-        Connection conn = servicoConectar.conectar();
+        Connection conn = servicoConectar.getConexao()
         PreparedStatement vaga = conn.prepareStatement(
                 sql,
                 ResultSet.TYPE_SCROLL_INSENSITIVE,
@@ -89,7 +88,7 @@ class VagaServico {
 
     ArrayList<Vaga> listarTodas() {
         try {
-            Connection conn = servicoConectar.conectar();
+            Connection conn = servicoConectar.getConexao()
             PreparedStatement vaga = conn.prepareStatement(
                     montarQueryBuscarTodas(),
                     ResultSet.TYPE_SCROLL_INSENSITIVE,
@@ -124,7 +123,7 @@ class VagaServico {
 
     ArrayList<Vaga> listar(String cnpj_empresa) {
         try {
-            Connection conn = servicoConectar.conectar();
+            Connection conn = servicoConectar.getConexao()
             PreparedStatement vaga = conn.prepareStatement(
                     montarQueryBuscarPorCnpj(),
                     ResultSet.TYPE_SCROLL_INSENSITIVE,
@@ -160,7 +159,7 @@ class VagaServico {
 
     boolean atualizar(Integer id_vaga, Vaga vaga) {
         try {
-            Connection conn = servicoConectar.conectar()
+            Connection conn = servicoConectar.getConexao()
             PreparedStatement atualizarVaga = conn.prepareStatement(
                     montarQueryBuscarPorId(),
                     ResultSet.TYPE_SCROLL_INSENSITIVE,
@@ -200,7 +199,7 @@ class VagaServico {
         String DELETAR = "DELETE FROM linlketinder.vaga WHERE id_vaga =?"
 
         try {
-            Connection conn = servicoConectar.conectar();
+            Connection conn = servicoConectar.getConexao()
             PreparedStatement del = conn.prepareStatement(DELETAR)
             del.setInt(1, id_vaga)
             del.executeUpdate()

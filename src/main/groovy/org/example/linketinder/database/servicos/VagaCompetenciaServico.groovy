@@ -1,6 +1,6 @@
 package org.example.linketinder.database.servicos
 
-import org.example.linketinder.database.database.ConectarBancoServico
+import org.example.linketinder.database.database.ConectarBanco
 import org.example.linketinder.database.modelos.Competencia
 
 import java.sql.Connection
@@ -8,10 +8,10 @@ import java.sql.PreparedStatement
 import java.sql.ResultSet
 
 class VagaCompetenciaServico {
-    private ConectarBancoServico servicoConectar
+    private ConectarBanco servicoConectar
 
     VagaCompetenciaServico(
-            ConectarBancoServico conectarBancoServico
+            ConectarBanco conectarBancoServico
     ) {
         servicoConectar = conectarBancoServico
     }
@@ -27,7 +27,7 @@ class VagaCompetenciaServico {
 
     ArrayList<Competencia> listarCompetencia(Integer id_vaga) {
         try {
-            Connection conexao = servicoConectar.conectar()
+            Connection conexao = servicoConectar.getConexao()
             PreparedStatement compentenciasQuery = conexao.prepareStatement(
                     buscarCompetencia(),
                     ResultSet.TYPE_SCROLL_INSENSITIVE,
@@ -61,7 +61,7 @@ class VagaCompetenciaServico {
 
     ArrayList<Competencia> buscarCompetencia(Integer id_Vaga) {
         try {
-            Connection conexao = servicoConectar.conectar();
+            Connection conexao = servicoConectar.getConexao()
             PreparedStatement compentenciasQuery = conexao.prepareStatement(
                     buscarCompetencia(),
                     ResultSet.TYPE_SCROLL_INSENSITIVE,
@@ -96,7 +96,7 @@ class VagaCompetenciaServico {
         String DELETAR = "DELETE FROM linlketinder.vaga_competencia " +
                 "WHERE id_vaga= ? AND id_competencia = ?"
         try {
-            Connection conn = servicoConectar.conectar();
+            Connection conn = servicoConectar.getConexao()
             PreparedStatement del = conn.prepareStatement(DELETAR)
             del.setInt(1, id_vaga)
             del.setInt(2, id_competencia)
@@ -115,7 +115,7 @@ class VagaCompetenciaServico {
         String INSERIR = "INSERT INTO linlketinder.vaga_competencia(id_competencia, id_vaga) " +
                 "VALUES (?, ?)"
         try {
-            Connection conn = servicoConectar.conectar()
+            Connection conn = servicoConectar.getConexao()
             PreparedStatement salvar = conn.prepareStatement(INSERIR);
             salvar.setInt(1, id_competencia)
             salvar.setInt(2, id_vaga)

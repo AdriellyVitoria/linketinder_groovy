@@ -1,4 +1,4 @@
-import org.example.linketinder.database.database.ConectarBancoServico
+import org.example.linketinder.database.database.ConectarBanco
 import org.example.linketinder.database.modelos.Competencia
 import org.example.linketinder.database.servicos.CompetenciaServico
 import org.junit.Test
@@ -18,11 +18,11 @@ class CompetenciaServicoTeste {
 
     CompetenciaServicoTeste() {
         Connection connectionMock = mock(Connection.class)
-        ConectarBancoServico servicoConectarBancoMock = mock(ConectarBancoServico.class)
+        ConectarBanco servicoConectarBancoMock = mock(ConectarBanco.class)
         PreparedStatement prepareStatementMock = mock(PreparedStatement.class)
         ResultSet resultSetMock = mock(ResultSet.class)
 
-        when(servicoConectarBancoMock.conectar()).thenReturn(connectionMock)
+        when(servicoConectarBancoMock.getConexao()).thenReturn(connectionMock)
         when(connectionMock.prepareStatement(anyString())).thenReturn(prepareStatementMock)
         when(connectionMock.prepareStatement(anyString(), anyInt(), anyInt())).thenReturn(prepareStatementMock)
         when(prepareStatementMock.executeQuery()).thenReturn(resultSetMock)

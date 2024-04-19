@@ -1,20 +1,18 @@
 package org.example.linketinder.database.servicos
 
-import org.example.linketinder.database.database.ConectarBancoServico
-import org.example.linketinder.database.factorys.VagaCompetenciaServicoFactory
+import org.example.linketinder.database.database.ConectarBanco
 import org.example.linketinder.database.modelos.Vaga
-import org.example.linketinder.database.utils.LoginManager
 
 import java.sql.Connection
 import java.sql.PreparedStatement
 import java.sql.ResultSet
 
 class CandidatoVagaServico {
-    private ConectarBancoServico servicoConectar
+    private ConectarBanco servicoConectar
     private VagaCompetenciaServico servicoVaga
 
     CandidatoVagaServico(
-            ConectarBancoServico servicoConectar,
+            ConectarBanco servicoConectar,
             VagaCompetenciaServico servicoVaga
     ){
         this.servicoConectar = servicoConectar
@@ -42,7 +40,7 @@ class CandidatoVagaServico {
         String APLICAR = "insert into linlketinder.candidato_vaga(cpf_candidato, id_vaga) " +
                 " Values (?, ?)"
         try {
-            Connection conn = servicoConectar.conectar();
+            Connection conn = servicoConectar.getConexao()
             PreparedStatement vaga = conn.prepareStatement(
                     montarQueryBuscar(),
                     ResultSet.TYPE_SCROLL_INSENSITIVE,
@@ -76,7 +74,7 @@ class CandidatoVagaServico {
 
     ArrayList<Vaga>  listarPorCpf(String cpf_candidato) {
         try {
-            Connection conn = servicoConectar.conectar();
+            Connection conn = servicoConectar.getConexao()
             PreparedStatement vaga = conn.prepareStatement(
                     listarVagasAplicadas(),
                     ResultSet.TYPE_SCROLL_INSENSITIVE,

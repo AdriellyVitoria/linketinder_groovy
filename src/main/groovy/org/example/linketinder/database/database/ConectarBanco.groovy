@@ -4,9 +4,22 @@ import java.sql.Connection
 import java.sql.SQLException
 import java.sql.DriverManager
 
-class ConectarBancoServico {
+class ConectarBanco {
+    Connection conexao
+    private static Connection instancia
 
-    Connection conectar() {
+    private ConectarBanco(){
+        conexao = conectar()
+    }
+
+    static Connection criarInstancia() {
+        if (instancia == null) {
+            instancia = conectar()
+        }
+        return instancia
+    }
+
+    private Connection conectar() {
         Properties props = new Properties();
         props.setProperty("user", "postgres");
         props.setProperty("password", "123456");
@@ -26,4 +39,5 @@ class ConectarBancoServico {
             return null;
         }
     }
+
 }

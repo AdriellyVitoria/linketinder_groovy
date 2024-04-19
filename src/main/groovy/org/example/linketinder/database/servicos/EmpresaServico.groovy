@@ -1,6 +1,6 @@
 package org.example.linketinder.database.servicos
 
-import org.example.linketinder.database.database.ConectarBancoServico
+import org.example.linketinder.database.database.ConectarBanco
 import org.example.linketinder.database.modelos.PessoaJuridica
 
 import java.sql.Connection
@@ -8,10 +8,10 @@ import java.sql.PreparedStatement
 import java.sql.ResultSet
 
 class EmpresaServico {
-    private ConectarBancoServico servicoConectar
+    private ConectarBanco servicoConectar
 
     EmpresaServico(
-            ConectarBancoServico servicoConectarBanco
+            ConectarBanco servicoConectarBanco
     ) {
         servicoConectar = servicoConectarBanco
     }
@@ -37,7 +37,7 @@ class EmpresaServico {
 
     void salvarInformacoes(String comado, PessoaJuridica empresa){
 
-        Connection conn = servicoConectar.conectar()
+        Connection conn = servicoConectar.getConexao()
         PreparedStatement salvar = conn.prepareStatement(comado);
 
         salvar.setString(1, empresa.getCnpj());
@@ -56,7 +56,7 @@ class EmpresaServico {
 
     PessoaJuridica entradaEmpresa(String email_empresa, String senha_empresa){
         try {
-            Connection conexao = servicoConectar.conectar();
+            Connection conexao = servicoConectar.getConexao()
             PreparedStatement empresa = conexao.prepareStatement(
                     verificacaoParaLogin(),
                     ResultSet.TYPE_SCROLL_INSENSITIVE,
@@ -86,7 +86,6 @@ class EmpresaServico {
                 }
             }
         } catch (Exception exception){
-            exception.printStackTrace();
             System.err.println("Erro em entrar");
             System.exit(-42);
         }
@@ -115,7 +114,7 @@ class EmpresaServico {
 
     boolean atualizar(PessoaJuridica empresa) {
         try {
-            Connection conn = servicoConectar.conectar()
+            Connection conn = servicoConectar.getConexao()
             String ATUALIZAR = "UPDATE linlketinder.empresa " +
                     "SET nome_empresa=?, email_empresa=?," +
                     "senha_empresa=?, telefone_empresa=?, cep_empresa=?," +
@@ -148,7 +147,7 @@ class EmpresaServico {
     boolean deletar(String cnpj_empresa) {
         String DELETAR = "DELETE FROM linlketinder.empresa WHERE cnpj_empresa=?"
         try {
-            Connection conn = servicoConectar.conectar();
+            Connection conn = servicoConectar.getConexao()
             PreparedStatement empresa = conn.prepareStatement(
                     montarQueryBuscarPorCnpj(),
                     ResultSet.TYPE_SCROLL_INSENSITIVE,

@@ -1,6 +1,6 @@
 package org.example.linketinder.database.servicos
 
-import org.example.linketinder.database.database.ConectarBancoServico
+import org.example.linketinder.database.database.ConectarBanco
 import org.example.linketinder.database.modelos.PessoaFisica
 
 import java.sql.Connection
@@ -8,12 +8,12 @@ import java.sql.PreparedStatement
 import java.sql.ResultSet
 
 class CandidatoServico {
-    private ConectarBancoServico servicoConectar
+    private ConectarBanco servicoConectar
     private CandidatoCompetenciaServico servicoCompetencia
 
     CandidatoServico(
             CandidatoCompetenciaServico servicoCandidatoCompetencia,
-            ConectarBancoServico servicoConectarBanco
+            ConectarBanco servicoConectarBanco
     ) {
         servicoCompetencia = servicoCandidatoCompetencia
         servicoConectar = servicoConectarBanco
@@ -34,7 +34,7 @@ class CandidatoServico {
 
     PessoaFisica entradaCandidato(String email_candidato, String senha_candidato) {
         try {
-            Connection conexao = servicoConectar.conectar();
+            Connection conexao = servicoConectar.getConexao()
             PreparedStatement candidato = conexao.prepareStatement(
                     verificacaoParalogin(),
                     ResultSet.TYPE_SCROLL_INSENSITIVE,
@@ -86,7 +86,7 @@ class CandidatoServico {
                 "\tdescricao_candidato) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)";
 
         try {
-            Connection conn = servicoConectar.conectar();
+            Connection conn = servicoConectar.getConexao()
             PreparedStatement salvar = conn.prepareStatement(INSERIR);
 
             salvar.setString(1, candidato.getCpf());
@@ -116,7 +116,7 @@ class CandidatoServico {
 
     boolean atualizar(PessoaFisica candidato){
         try {
-            Connection conn = servicoConectar.conectar()
+            Connection conn = servicoConectar.getConexao()
             String ATUALIZAR = "UPDATE linlketinder.candidato " +
                     "SET nome_candidato =?, email_candidato =?, " +
                     "senha_candidato =?, telefone_candidato =?," +
@@ -148,7 +148,7 @@ class CandidatoServico {
     boolean deletar(String cpf_candidato){
         String DELETAR = "DELETE FROM linlketinder.candidato WHERE cpf_candidato=?"
         try {
-            Connection conn = servicoConectar.conectar();
+            Connection conn = servicoConectar.getConexao()
             PreparedStatement del = conn.prepareStatement(DELETAR)
             del.setString(1, cpf_candidato)
             del.executeUpdate()

@@ -1,6 +1,6 @@
 package org.example.linketinder.database.servicos
 
-import org.example.linketinder.database.database.ConectarBancoServico
+import org.example.linketinder.database.database.ConectarBanco
 import org.example.linketinder.database.modelos.Competencia
 
 import java.sql.Connection
@@ -8,10 +8,10 @@ import java.sql.PreparedStatement
 import java.sql.ResultSet
 
 class CandidatoCompetenciaServico {
-    private ConectarBancoServico servicoConectar
+    private ConectarBanco servicoConectar
 
     CandidatoCompetenciaServico(
-            ConectarBancoServico conectarBancoServico
+            ConectarBanco conectarBancoServico
     ){
         servicoConectar = conectarBancoServico
     }
@@ -29,7 +29,7 @@ class CandidatoCompetenciaServico {
 
     ArrayList<Competencia> listarCompetencia(String cpf_candidato){
         try {
-            Connection conexao = servicoConectar.conectar();
+            Connection conexao = servicoConectar.getConexao()
             PreparedStatement compentenciasQuery = conexao.prepareStatement(
                     montarQueryBuscarPorCpf(),
                     ResultSet.TYPE_SCROLL_INSENSITIVE,
@@ -64,7 +64,7 @@ class CandidatoCompetenciaServico {
         String DELETAR = "DELETE FROM linlketinder.candidato_competencia\n " +
                 "WHERE cpf_candidato =? AND id_competencia =?"
         try {
-            Connection conn = servicoConectar.conectar();
+            Connection conn = servicoConectar.getConexao()
             PreparedStatement candidato = conn.prepareStatement(
                     montarQueryBuscarPorCpf(),
                     ResultSet.TYPE_SCROLL_INSENSITIVE,
@@ -95,7 +95,7 @@ class CandidatoCompetenciaServico {
         String INSERIR = "INSERT INTO linlketinder.candidato_competencia(id_competencia, cpf_candidato)" +
                 " VALUES (?, ?)"
         try {
-            Connection conn = servicoConectar.conectar()
+            Connection conn = servicoConectar.getConexao()
             PreparedStatement salvar = conn.prepareStatement(INSERIR)
 
             salvar.setInt(1, id_competencia)
