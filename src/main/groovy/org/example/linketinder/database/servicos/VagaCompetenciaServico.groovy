@@ -103,7 +103,6 @@ class VagaCompetenciaServico {
 
             del.executeUpdate()
             del.close()
-            servicoConectar.desconectar(conn)
             return true
         } catch (Exception exception) {
             System.err.println("Erro em deletar Competencia em vaga");
@@ -123,7 +122,6 @@ class VagaCompetenciaServico {
 
             salvar.executeUpdate();
             salvar.close();
-            servicoConectar.desconectar(conn);
             return true
         } catch (Exception exception) {
             System.err.println("Erro em inserir")

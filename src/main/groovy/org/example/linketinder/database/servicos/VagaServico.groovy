@@ -47,7 +47,6 @@ class VagaServico {
 
         salvar.executeUpdate();
         salvar.close();
-        servicoConectar.desconectar(conn);
     }
 
     boolean criar(Vaga vaga) {
@@ -188,7 +187,6 @@ class VagaServico {
 
                 salvar.executeUpdate();
                 salvar.close();
-                servicoConectar.desconectar(conn);
                 return vaga
             }
         } catch (Exception exeption) {
@@ -207,7 +205,6 @@ class VagaServico {
             del.setInt(1, id_vaga)
             del.executeUpdate()
             del.close()
-            servicoConectar.desconectar(conn)
         } catch (Exception exception) {
             System.err.println("Erro em deletar vaga");
         }

@@ -60,7 +60,6 @@ class CandidatoVagaServico {
                 del.setInt(2, id_vaga)
                 del.executeUpdate()
                 del.close()
-                servicoConectar.desconectar(conn)
             }
             return true
         } catch (Exception exception) {

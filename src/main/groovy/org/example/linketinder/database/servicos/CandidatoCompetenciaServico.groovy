@@ -83,7 +83,6 @@ class CandidatoCompetenciaServico {
                 del.setInt(2, id_competencia)
                 del.executeUpdate()
                 del.close()
-                servicoConectar.desconectar(conn)
             }
             return true
         } catch (Exception exception) {
@@ -103,7 +102,6 @@ class CandidatoCompetenciaServico {
             salvar.setString(2, cpf_candidato)
             salvar.executeUpdate();
             salvar.close();
-            servicoConectar.desconectar(conn);
             return true
         } catch (Exception exception) {
             System.err.println("Erro ao add competencia")

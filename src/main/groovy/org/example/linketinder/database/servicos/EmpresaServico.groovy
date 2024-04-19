@@ -52,7 +52,6 @@ class EmpresaServico {
 
         salvar.executeUpdate();
         salvar.close();
-        servicoConectar.desconectar(conn);
     }
 
     PessoaJuridica entradaEmpresa(String email_empresa, String senha_empresa){
@@ -137,7 +136,6 @@ class EmpresaServico {
 
             salvar.executeUpdate()
             salvar.close()
-            servicoConectar.desconectar(conn)
             return true
 
         } catch (Exception exeption) {
@@ -168,7 +166,6 @@ class EmpresaServico {
                 del.setString(1, cnpj_empresa)
                 del.executeUpdate()
                 del.close()
-                servicoConectar.desconectar(conn)
             }
         } catch (Exception exception) {
             System.err.println("Erro em deletar Competencia Empresa");

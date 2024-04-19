@@ -101,7 +101,6 @@ class CandidatoServico {
 
             salvar.executeUpdate();
             salvar.close();
-            servicoConectar.desconectar(conn);
             return true
         }catch (Exception e) {
             System.err.println ("ERRO AO CADASTRAR")
@@ -138,7 +137,6 @@ class CandidatoServico {
 
             salvar.executeUpdate();
             salvar.close();
-            servicoConectar.desconectar(conn);
             return true
 
         } catch (Exception exeption) {
@@ -155,7 +153,6 @@ class CandidatoServico {
             del.setString(1, cpf_candidato)
             del.executeUpdate()
             del.close()
-            servicoConectar.desconectar(conn)
             return true
         } catch (Exception exception) {
             System.err.println("Erro em deletar Competencia Candidato");

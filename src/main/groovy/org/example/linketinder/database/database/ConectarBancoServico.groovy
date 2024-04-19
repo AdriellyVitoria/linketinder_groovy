@@ -26,14 +26,4 @@ class ConectarBancoServico {
             return null;
         }
     }
-
-    void desconectar(Connection conn){
-        if(conn != null) {
-            try {
-                conn.close();
-            } catch (SQLException e) {
-                e.printStackTrace();
-            }
-        }
-    }
 }

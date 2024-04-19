@@ -28,7 +28,6 @@ class CompetenciaServico {
             salvar.setString(1, competencia)
             salvar.executeUpdate();
             salvar.close();
-            servicoConectar.desconectar(conn)
             return true
         } catch (Exception exception) {
             System.err.println("Erro em inserir");
