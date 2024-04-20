@@ -1,8 +1,6 @@
 import org.example.linketinder.dao.implementacoes.VagaCompetenciaDaoImpl
-import org.example.linketinder.dao.interfaces.VagaCompetenciaDao
 import org.example.linketinder.database.ConectarBanco
 import org.example.linketinder.modelos.Competencia
-import org.example.linketinder.servicos.VagaCompetenciaServico
 import org.junit.Assert
 import org.junit.Test
 

@@ -1,3 +1,4 @@
+import org.example.linketinder.dao.interfaces.CandidatoDao
 import org.example.linketinder.database.ConectarBanco
 import org.example.linketinder.modelos.PessoaFisica
 import org.example.linketinder.servicos.CandidatoCompetenciaServico
@@ -15,7 +16,7 @@ import static org.mockito.Mockito.mock
 import static org.mockito.Mockito.when
 
 class CandidatoServicoTeste {
-    private CandidatoServico candidatoServico
+    private CandidatoDao candidatoDaoImpl
 
     CandidatoServicoTeste() {
         Connection connectionMock = mock(Connection.class)

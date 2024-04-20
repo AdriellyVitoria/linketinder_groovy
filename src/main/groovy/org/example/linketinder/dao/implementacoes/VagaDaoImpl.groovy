@@ -1,5 +1,6 @@
 package org.example.linketinder.dao.implementacoes
 
+import org.example.linketinder.dao.interfaces.VagaCompetenciaDao
 import org.example.linketinder.dao.interfaces.VagaDao
 import org.example.linketinder.database.ConectarBanco
 import org.example.linketinder.modelos.Vaga
@@ -14,7 +15,7 @@ class VagaDaoImpl implements VagaDao{
     private VagaCompetenciaDaoImpl vagaCompetenciaDao
 
     VagaDaoImpl (ConectarBanco conectarBanco,
-     VagaCompetenciaDaoImpl vagaCompetenciaDao) {
+                 VagaCompetenciaDao vagaCompetenciaDao) {
         this.conectarBanco = conectarBanco
         this.vagaCompetenciaDao = vagaCompetenciaDao
     }

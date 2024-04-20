@@ -8,7 +8,7 @@ import java.sql.Connection
 import java.sql.PreparedStatement
 import java.sql.ResultSet
 
-class VagaCompetenciaDaoImpl implements VagaCompetenciaDao {
+class VagaCompetenciaDaoImpl implements org.example.linketinder.dao.interfaces.VagaCompetenciaDao {
     private ConectarBanco conectarBanco
 
     VagaCompetenciaDaoImpl(ConectarBanco conectarBanco) {
