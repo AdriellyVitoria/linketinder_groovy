@@ -1,8 +1,9 @@
+import org.example.linketinder.dao.implementacoes.CandidatoCompetenciaDaoImpl
+import org.example.linketinder.dao.implementacoes.CandidatoDaoImpl
+import org.example.linketinder.dao.interfaces.CandidatoCompetenciaDao
 import org.example.linketinder.dao.interfaces.CandidatoDao
 import org.example.linketinder.database.ConectarBanco
 import org.example.linketinder.modelos.PessoaFisica
-import org.example.linketinder.servicos.CandidatoCompetenciaServico
-import org.example.linketinder.servicos.CandidatoServico
 import org.junit.Assert
 import org.junit.Test
 
@@ -16,21 +17,21 @@ import static org.mockito.Mockito.mock
 import static org.mockito.Mockito.when
 
 class CandidatoServicoTeste {
-    private CandidatoDao candidatoDaoImpl
+    private CandidatoDao candidatoDao
 
     CandidatoServicoTeste() {
         Connection connectionMock = mock(Connection.class)
         ConectarBanco servicoConectarBancoMock = mock(ConectarBanco.class)
         PreparedStatement prepareStatementMock = mock(PreparedStatement.class)
         ResultSet resultSetMock = mock(ResultSet.class)
-        CandidatoCompetenciaServico candidatoCompetenciaServico = new CandidatoCompetenciaServico(servicoConectarBancoMock)
+        CandidatoCompetenciaDao candidatoCompetenciaDao = new CandidatoCompetenciaDaoImpl(servicoConectarBancoMock)
 
         when(servicoConectarBancoMock.getConexao()).thenReturn(connectionMock)
         when(connectionMock.prepareStatement(anyString())).thenReturn(prepareStatementMock)
         when(connectionMock.prepareStatement(anyString(), anyInt(), anyInt())).thenReturn(prepareStatementMock)
         when(prepareStatementMock.executeQuery()).thenReturn(resultSetMock)
 
-        candidatoServico = new CandidatoServico(candidatoCompetenciaServico, servicoConectarBancoMock)
+        candidatoDao = new CandidatoDaoImpl(servicoConectarBancoMock, candidatoCompetenciaDao)
     }
 
     private PessoaFisica criarPessoarFisica(){
@@ -50,7 +51,7 @@ class CandidatoServicoTeste {
     void testeInserirCandidato(){
         PessoaFisica pessoaFisica = criarPessoarFisica()
 
-        boolean retorno = candidatoServico.inserir(pessoaFisica)
+        boolean retorno = candidatoDao.inserir(pessoaFisica)
 
         Assert.assertNotNull(retorno)
     }
@@ -59,7 +60,7 @@ class CandidatoServicoTeste {
     void testeAtualizarPessoa() {
     PessoaFisica pessoaFisica = criarPessoarFisica()
 
-    boolean retorno = candidatoServico.atualizar(pessoaFisica)
+    boolean retorno = candidatoDao.atualizar(pessoaFisica)
 
     Assert.assertTrue(retorno)
     }
@@ -68,7 +69,7 @@ class CandidatoServicoTeste {
     void testeDeletarCandidato() {
         String cpf_teste = '123'
 
-        boolean retorno = candidatoServico.deletar(cpf_teste)
+        boolean retorno = candidatoDao.deletar(cpf_teste)
 
         Assert.assertTrue(retorno)
     }

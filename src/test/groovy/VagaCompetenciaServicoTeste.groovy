@@ -1,4 +1,5 @@
 import org.example.linketinder.dao.implementacoes.VagaCompetenciaDaoImpl
+import org.example.linketinder.dao.interfaces.VagaCompetenciaDao
 import org.example.linketinder.database.ConectarBanco
 import org.example.linketinder.modelos.Competencia
 import org.junit.Assert
@@ -16,7 +17,7 @@ import static org.mockito.Mockito.when
 
 class VagaCompetenciaServicoTeste {
 
-    private VagaCompetenciaDaoImpl vagaCompetenciaDaoImpl
+    private VagaCompetenciaDao vagaCompetenciaDao
 
     VagaCompetenciaServicoTeste() {
         Connection connectionMock = mock(Connection.class)
@@ -29,7 +30,7 @@ class VagaCompetenciaServicoTeste {
         when(connectionMock.prepareStatement(anyString(), anyInt(), anyInt())).thenReturn(prepareStatementMock)
         when(prepareStatementMock.executeQuery()).thenReturn(resultSetMock)
 
-        vagaCompetenciaDaoImpl = new VagaCompetenciaDaoImpl(servicoConectarBancoMock)
+        vagaCompetenciaDao = new VagaCompetenciaDaoImpl(servicoConectarBancoMock)
     }
 
     @Test
@@ -38,7 +39,7 @@ class VagaCompetenciaServicoTeste {
         Integer id_competencia = 2
         Integer id_vaga = 2
 
-        boolean retorno = vagaCompetenciaDaoImpl.inserir(id_competencia, id_vaga)
+        boolean retorno = vagaCompetenciaDao.inserir(id_competencia, id_vaga)
 
         Assert.assertTrue(retorno)
     }
@@ -48,7 +49,7 @@ class VagaCompetenciaServicoTeste {
         Integer id_competencia = 2
         Integer id_vaga = 2
 
-        boolean retorno = vagaCompetenciaDaoImpl.deletar(id_competencia, id_vaga)
+        boolean retorno = vagaCompetenciaDao.deletar(id_competencia, id_vaga)
 
         Assert.assertTrue(retorno)
     }
@@ -57,7 +58,7 @@ class VagaCompetenciaServicoTeste {
     void testeListarCompetenciaVaga() {
         Integer id_Vaga = 1
 
-        ArrayList<Competencia> retorno = vagaCompetenciaDaoImpl.listarCompetencia(id_Vaga)
+        ArrayList<Competencia> retorno = vagaCompetenciaDao.listarCompetencia(id_Vaga)
 
         Assert.assertNotNull(retorno)
     }

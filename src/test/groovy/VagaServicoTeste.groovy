@@ -1,5 +1,7 @@
 import org.example.linketinder.dao.implementacoes.VagaCompetenciaDaoImpl
 import org.example.linketinder.dao.implementacoes.VagaDaoImpl
+import org.example.linketinder.dao.interfaces.VagaCompetenciaDao
+import org.example.linketinder.dao.interfaces.VagaDao
 import org.example.linketinder.database.ConectarBanco
 import org.example.linketinder.modelos.Vaga
 import org.junit.Assert
@@ -16,7 +18,7 @@ import static org.mockito.Mockito.when
 
 class VagaServicoTeste {
 
-    private VagaDaoImpl vagaDaoImpl
+    private VagaDao vagaDao
 
     VagaServicoTeste() {
         Connection connectionMock = mock(Connection.class)
@@ -24,14 +26,14 @@ class VagaServicoTeste {
         PreparedStatement prepareStatementMock = mock(PreparedStatement.class)
         ResultSet resultSetMock = mock(ResultSet.class)
 
-        VagaCompetenciaDaoImpl vagaCompetenciaDaoImpl = new VagaCompetenciaDaoImpl(servicoConectarBancoMock)
+        VagaCompetenciaDao vagaCompetenciaDao = new VagaCompetenciaDaoImpl(servicoConectarBancoMock)
 
         when(servicoConectarBancoMock.getConexao()).thenReturn(connectionMock)
         when(connectionMock.prepareStatement(anyString())).thenReturn(prepareStatementMock)
         when(connectionMock.prepareStatement(anyString(), anyInt(), anyInt())).thenReturn(prepareStatementMock)
         when(prepareStatementMock.executeQuery()).thenReturn(resultSetMock)
 
-        vagaDaoImpl = new VagaDaoImpl(servicoConectarBancoMock, vagaCompetenciaDaoImpl)
+        vagaDao = new VagaDaoImpl(servicoConectarBancoMock, vagaCompetenciaDao)
     }
 
     private Vaga criarVaga() {
@@ -46,14 +48,14 @@ class VagaServicoTeste {
     @Test
     void testeCriarVaga() {
         Vaga vaga = criarVaga()
-        boolean retorno = vagaDaoImpl.criar(vaga)
+        boolean retorno = vagaDao.criar(vaga)
 
         Assert.assertNotNull(retorno)
     }
 
     @Test
     void testeBuscarIdVagaCriada() {
-        boolean retorno = vagaDaoImpl.buscaIdVagaCriada()
+        boolean retorno = vagaDao.buscaIdVagaCriada()
 
         Assert.assertNotNull(retorno)
     }
@@ -61,7 +63,7 @@ class VagaServicoTeste {
     @Test
     void testeListarTodasAsVagas(){
 
-        ArrayList<Vaga> retorno = vagaDaoImpl.listarTodas()
+        ArrayList<Vaga> retorno = vagaDao.listarTodas()
 
         Assert.assertNotNull(retorno)
     }
@@ -70,7 +72,7 @@ class VagaServicoTeste {
     void testeListarVagaEmpresa() {
         String cnpj_teste = '123'
 
-        ArrayList<Vaga> retorno = vagaDaoImpl.listar(cnpj_teste)
+        ArrayList<Vaga> retorno = vagaDao.listar(cnpj_teste)
 
         Assert.assertNotNull(retorno)
     }
@@ -80,7 +82,7 @@ class VagaServicoTeste {
         Integer id_vaga = 1
         Vaga vaga = criarVaga()
 
-        boolean retorno = vagaDaoImpl.atualizar(id_vaga, vaga)
+        boolean retorno = vagaDao.atualizar(id_vaga, vaga)
 
         Assert.assertNotNull(retorno)
     }
@@ -89,7 +91,7 @@ class VagaServicoTeste {
     void testeDeletarVaga() {
         Integer id_vaga = 1
 
-        boolean retorno = vagaDaoImpl.deletar(id_vaga)
+        boolean retorno = vagaDao.deletar(id_vaga)
 
         Assert.assertNotNull(retorno)
     }
