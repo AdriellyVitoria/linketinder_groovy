@@ -2,6 +2,7 @@ package org.example.linketinder.dao.implementacoes
 
 import org.example.linketinder.dao.interfaces.EmpresaDao
 import org.example.linketinder.database.ConectarBanco
+import org.example.linketinder.modelos.LoginRequest
 import org.example.linketinder.modelos.PessoaJuridica
 
 import java.sql.Connection
@@ -17,7 +18,7 @@ class EmpresaDaoImpl implements EmpresaDao{
     }
 
     @Override
-    PessoaJuridica entradaEmpresa(String email_empresa, String senha_empresa) {
+    PessoaJuridica entradaEmpresa(LoginRequest loginRequest) {
         String sql = montarSqlLogin()
         try {
             Connection conexao = conectarBanco.getConexao()
@@ -26,8 +27,8 @@ class EmpresaDaoImpl implements EmpresaDao{
                     ResultSet.TYPE_SCROLL_INSENSITIVE,
                     ResultSet.CONCUR_READ_ONLY
             );
-            empresa.setString(1, email_empresa)
-            empresa.setString(2, senha_empresa)
+            empresa.setString(1, loginRequest.email)
+            empresa.setString(2, loginRequest.senha)
             ResultSet res = empresa.executeQuery()
 
             res.last();

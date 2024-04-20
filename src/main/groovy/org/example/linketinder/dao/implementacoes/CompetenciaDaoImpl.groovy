@@ -63,7 +63,7 @@ class CompetenciaDaoImpl implements CompetenciaDao {
             }
             return competencias
         }catch(Exception exception){
-            System.err.println("Erro em listar");
+            System.err.println("Erro em listarPorCnpj");
         }
         return null
     }

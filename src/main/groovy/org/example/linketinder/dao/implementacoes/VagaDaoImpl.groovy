@@ -108,7 +108,7 @@ class VagaDaoImpl implements VagaDao{
             }
             return vagas
         }catch(Exception exception){
-            System.err.println("Erro em listar" )
+            System.err.println("Erro em listarPorCnpj" )
         }
         return null
     }
@@ -119,7 +119,7 @@ class VagaDaoImpl implements VagaDao{
     }
 
     @Override
-    ArrayList<Vaga> listar(String cnpj_empresa) {
+    ArrayList<Vaga> listarPorCnpj(String cnpj_empresa) {
         String sql = montarQueryBuscarPorCnpj()
         try {
             Connection conn = conectarBanco.getConexao()
@@ -151,7 +151,7 @@ class VagaDaoImpl implements VagaDao{
             }
             return vagas
         } catch (Exception exception) {
-            System.err.println("Erro em listar" )
+            System.err.println("Erro em listarPorCnpj" )
         }
         return null
     }

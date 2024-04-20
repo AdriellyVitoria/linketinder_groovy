@@ -72,7 +72,7 @@ class VagaServicoTeste {
     void testeListarVagaEmpresa() {
         String cnpj_teste = '123'
 
-        ArrayList<Vaga> retorno = vagaDao.listar(cnpj_teste)
+        ArrayList<Vaga> retorno = vagaDao.listarPorCnpj(cnpj_teste)
 
         Assert.assertNotNull(retorno)
     }

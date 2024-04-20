@@ -1,9 +1,9 @@
-package org.example.linketinder.dao.interfaces
+package org.example.linketinder.service.interfaces
 
 import org.example.linketinder.modelos.LoginRequest
 import org.example.linketinder.modelos.PessoaFisica
 
-interface CandidatoDao {
+interface CandidatoService {
     PessoaFisica entradaCandidato(LoginRequest request)
     boolean inserir(PessoaFisica candidato)
     boolean atualizar(PessoaFisica candidato)

@@ -52,13 +52,13 @@ class CandidatoCompetenciaDaoImpl implements CandidatoCompetenciaDao{
 
     private String montarQueryBuscarPorCpf() {
         return "select " +
-                "\tc.id_competencia, " +
-                "\tc.descricao_competencia " +
+                "c.id_competencia, " +
+                "c.descricao_competencia " +
                 "from " +
-                "\tlinlketinder.candidato_competencia AS cc " +
-                "\tjoin linlketinder.competencia AS c on c.id_competencia = cc.id_competencia " +
+                "linlketinder.candidato_competencia AS cc " +
+                "join linlketinder.competencia AS c on c.id_competencia = cc.id_competencia " +
                 "where " +
-                "\tcc.cpf_candidato = ?"
+                "cc.cpf_candidato = ?"
     }
 
     @Override
@@ -79,7 +79,7 @@ class CandidatoCompetenciaDaoImpl implements CandidatoCompetenciaDao{
     }
 
     private String montarSqlDeletar() {
-        return "DELETE FROM linlketinder.candidato_competencia\n " +
+        return "DELETE FROM linlketinder.candidato_competencia " +
                 "WHERE cpf_candidato =? AND id_competencia =?"
     }
 

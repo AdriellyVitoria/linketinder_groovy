@@ -1,7 +1,6 @@
 package org.example.linketinder.dao.implementacoes
 
 import org.example.linketinder.dao.interfaces.CandidatoVagaDao
-import org.example.linketinder.dao.interfaces.VagaCompetenciaDao
 import org.example.linketinder.database.ConectarBanco
 import org.example.linketinder.modelos.Vaga
 
@@ -11,12 +10,9 @@ import java.sql.ResultSet
 
 class CandidatoVagaDaoImpl implements CandidatoVagaDao{
     private ConectarBanco conectarBanco
-    private VagaCompetenciaDao vagaCompetenciaDao
 
-    CandidatoVagaDaoImpl(ConectarBanco conectarBanco,
-    VagaCompetenciaDao vagaCompetenciaDao) {
+    CandidatoVagaDaoImpl(ConectarBanco conectarBanco) {
         this.conectarBanco = conectarBanco
-        this.vagaCompetenciaDao = vagaCompetenciaDao
     }
 
     @Override
@@ -92,15 +88,12 @@ class CandidatoVagaDaoImpl implements CandidatoVagaDao{
                             res.getString(3),
                             res.getString(4)
                     )
-                    v.setCompetencias(
-                            vagaCompetenciaDao.listarCompetencia(v.id)
-                    )
                     vagas.add(v)
                 }
             }
             return vagas
         }catch(Exception exception){
-            System.err.println("Erro em listar" )
+            System.err.println("Erro em listarPorCnpj" )
         }
         return null
     }

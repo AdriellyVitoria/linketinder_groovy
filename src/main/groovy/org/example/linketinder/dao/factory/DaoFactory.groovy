@@ -1,4 +1,4 @@
-package org.example.linketinder.dao.factorys
+package org.example.linketinder.dao.factory
 
 import org.example.linketinder.dao.implementacoes.CandidatoCompetenciaDaoImpl
 import org.example.linketinder.dao.implementacoes.CandidatoDaoImpl
@@ -24,8 +24,7 @@ class DaoFactory {
 
     static CandidatoDao criarInstanciaCandidato() {
         ConectarBanco conectarBanco = ConectarBanco.criarInstancia()
-        CandidatoCompetenciaDao candidatoCompetenciaDao = criarInstanciaCandidatoCompetencia()
-        return new CandidatoDaoImpl(conectarBanco, candidatoCompetenciaDao)
+        return new CandidatoDaoImpl(conectarBanco)
     }
 
     static CandidatoVagaDao criarInstanciaCandidatoVaga() {

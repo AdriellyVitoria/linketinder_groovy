@@ -3,26 +3,24 @@ package org.example.linketinder.dao.implementacoes
 import org.example.linketinder.dao.interfaces.CandidatoCompetenciaDao
 import org.example.linketinder.dao.interfaces.CandidatoDao
 import org.example.linketinder.database.ConectarBanco
+import org.example.linketinder.modelos.LoginRequest
 import org.example.linketinder.modelos.PessoaFisica
 
 import java.sql.Connection
 import java.sql.PreparedStatement
 import java.sql.ResultSet
 
-class CandidatoDaoImpl implements CandidatoDao{
+class CandidatoDaoImpl implements CandidatoDao {
     private ConectarBanco conectarBanco
-    private CandidatoCompetenciaDao candidatoCompetenciaDao
 
     CandidatoDaoImpl(
-            ConectarBanco conectarBanco,
-            CandidatoCompetenciaDao candidatoCompetenciaDao
+            ConectarBanco conectarBanco
     ) {
         this.conectarBanco = conectarBanco
-        this.candidatoCompetenciaDao = candidatoCompetenciaDao
     }
 
     @Override
-    PessoaFisica entradaCandidato(String email_candidato, String senha_candidato) {
+    PessoaFisica entradaCandidato(LoginRequest request) {
         String sql = verificacaoParalogin()
         try {
             Connection conexao = conectarBanco.getConexao()
@@ -31,8 +29,8 @@ class CandidatoDaoImpl implements CandidatoDao{
                     ResultSet.TYPE_SCROLL_INSENSITIVE,
                     ResultSet.CONCUR_READ_ONLY
             );
-            candidato.setString(1, email_candidato)
-            candidato.setString(2, senha_candidato)
+            candidato.setString(1, request.email)
+            candidato.setString(2, request.senha)
             ResultSet res = candidato.executeQuery()
 
             res.last()
@@ -50,9 +48,6 @@ class CandidatoDaoImpl implements CandidatoDao{
                             res.getString(6),
                             res.getInt(7),
                             res.getString(8),
-                    )
-                    c.setCompetencias(
-                            candidatoCompetenciaDao.listarCompetencia(c.cpf)
                     )
                     return c
                 }
