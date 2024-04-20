@@ -29,6 +29,8 @@ class CandidatoCompetenciaServicoTeste {
         when(prepareStatementMock.executeQuery()).thenReturn(resultSetMock)
 
         candidatoCompetenciaDao = new CandidatoCompetenciaDaoImpl(servicoConectarBancoMock)
+
+
     }
 
     @Test

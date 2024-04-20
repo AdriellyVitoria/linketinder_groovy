@@ -25,7 +25,7 @@ class EmpresaViews {
 
     void menuPrincipalEmpresa() {
         while (true) {
-            opcao = input.validaEntradaDeInteiro("-----MENU-----" +
+            opcao = input.validaEntradaDeInteiroComOpcoes("-----MENU-----" +
                     "\n1- Menu vaga\n2- Editar perfil\n3- Sair do programa",
                     1, 3)
             if (opcao == 1){
@@ -46,7 +46,7 @@ class EmpresaViews {
 
     boolean menuEditarPerfilEmpresa(){
         while (true){
-            opcao = input.validaEntradaDeInteiro(
+            opcao = input.validaEntradaDeInteiroComOpcoes(
                     "1- Ver perfil\n2- Editar perfil\n3- Excluir Perfil\n4- Voltar para o menu principal",
                     1, 4)
             if (opcao == 1){
@@ -81,7 +81,7 @@ class EmpresaViews {
     }
 
     boolean deletarPerfil(){
-        opcao = input.validaEntradaDeInteiro(
+        opcao = input.validaEntradaDeInteiroComOpcoes(
                 "Certeza que deseja exluir empresa:\n 1- Sim | 2- Não", 1, 2)
         if (opcao == 1){
             String cnpj = LoginManager.getEmpresa().cnpj

@@ -20,7 +20,7 @@ class Menu {
 
     void menuInicial(){
         while (true) {
-            opcao = input.validaEntradaDeInteiro("Olá, Bem vindo ao LINKETINDER\n" +
+            opcao = input.validaEntradaDeInteiroComOpcoes("Olá, Bem vindo ao LINKETINDER\n" +
                     "Entrar como:\n1 - Candidato\n2 - Empresa\n3 - Sair", 1, 3)
             if (opcao == 1) {
                 entradaCandidatoViews.entradaCandidato()

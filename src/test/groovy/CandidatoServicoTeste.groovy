@@ -4,6 +4,8 @@ import org.example.linketinder.dao.interfaces.CandidatoCompetenciaDao
 import org.example.linketinder.dao.interfaces.CandidatoDao
 import org.example.linketinder.database.ConectarBanco
 import org.example.linketinder.modelos.PessoaFisica
+import org.example.linketinder.service.implementacoes.CandidatoServiceImpl
+import org.example.linketinder.service.interfaces.CandidatoService
 import org.junit.Assert
 import org.junit.Test
 
@@ -14,24 +16,19 @@ import java.sql.ResultSet
 import static org.mockito.ArgumentMatchers.anyInt
 import static org.mockito.ArgumentMatchers.anyString
 import static org.mockito.Mockito.mock
+import static org.mockito.Mockito.times
+import static org.mockito.Mockito.verify
 import static org.mockito.Mockito.when
 
 class CandidatoServicoTeste {
-    private CandidatoDao candidatoDao
+    private CandidatoDao candidatoDaoMock
+    private CandidatoCompetenciaDao candidatoCompetenciaDaoMock
+    private CandidatoService candidatoService
 
     CandidatoServicoTeste() {
-        Connection connectionMock = mock(Connection.class)
-        ConectarBanco servicoConectarBancoMock = mock(ConectarBanco.class)
-        PreparedStatement prepareStatementMock = mock(PreparedStatement.class)
-        ResultSet resultSetMock = mock(ResultSet.class)
-        CandidatoCompetenciaDao candidatoCompetenciaDao = new CandidatoCompetenciaDaoImpl(servicoConectarBancoMock)
-
-        when(servicoConectarBancoMock.getConexao()).thenReturn(connectionMock)
-        when(connectionMock.prepareStatement(anyString())).thenReturn(prepareStatementMock)
-        when(connectionMock.prepareStatement(anyString(), anyInt(), anyInt())).thenReturn(prepareStatementMock)
-        when(prepareStatementMock.executeQuery()).thenReturn(resultSetMock)
-
-        candidatoDao = new CandidatoDaoImpl(servicoConectarBancoMock, candidatoCompetenciaDao)
+        candidatoDaoMock = mock(CandidatoDao.class)
+        candidatoCompetenciaDaoMock = mock(CandidatoCompetenciaDao.class)
+        candidatoService = new CandidatoServiceImpl(candidatoDaoMock, candidatoCompetenciaDaoMock)
     }
 
     private PessoaFisica criarPessoarFisica(){
@@ -50,10 +47,12 @@ class CandidatoServicoTeste {
     @Test
     void testeInserirCandidato(){
         PessoaFisica pessoaFisica = criarPessoarFisica()
+        when(candidatoDaoMock.inserir(pessoaFisica)).thenReturn(true)
 
-        boolean retorno = candidatoDao.inserir(pessoaFisica)
+        boolean resultado = candidatoService.inserir(pessoaFisica)
 
-        Assert.assertNotNull(retorno)
+        Assert.assertTrue(resultado)
+        verify(candidatoDaoMock.inserir(pessoaFisica), times(1))
     }
 
     @Test

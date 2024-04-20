@@ -42,7 +42,7 @@ class CompetenciaViews {
             println("Digite 1 id por vez para add a competencia")
             Integer id_competencia = Integer.parseInt(scanner.nextLine())
             candidatoCompetencia.inserir(id_competencia, cpf)
-            opcao = input.validaEntradaDeInteiro("1- Adicionar mais Competencia| " +
+            opcao = input.validaEntradaDeInteiroComOpcoes("1- Adicionar mais Competencia| " +
                     "2- Criar Competencia | 3- Concluido",
                     1, 3)
             if (opcao == 2) {
@@ -59,7 +59,7 @@ class CompetenciaViews {
             println("Digite 1 id por vez para add a competencia")
             Integer id_competencia = Integer.parseInt(scanner.nextLine())
             vagaCompetencia.inserir(id_competencia, id_vaga)
-            opcao = input.validaEntradaDeInteiro("1- Adicionar mais Competencia | " +
+            opcao = input.validaEntradaDeInteiroComOpcoes("1- Adicionar mais Competencia | " +
                     "2- Criar Competencia | 3- Concluido",
                     1, 3)
             if (opcao == 2) {

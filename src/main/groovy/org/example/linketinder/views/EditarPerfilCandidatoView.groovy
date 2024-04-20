@@ -32,7 +32,7 @@ class EditarPerfilCandidatoView {
 
     boolean editarPerfil() {
         while (true) {
-            opcao = input.validaEntradaDeInteiro(
+            opcao = input.validaEntradaDeInteiroComOpcoes(
                     "1- Ver perfil\n2- Editar perfil\n3- Excluir Perfil\n4- Voltar para o menu principal",
                     1, 4)
             if (opcao == 1){
@@ -65,7 +65,7 @@ class EditarPerfilCandidatoView {
 
     private void menuEditarCompenteciaDescricao() {
         candidato.cpf = LoginManager.candidato.cpf
-        opcao = input.validaEntradaDeInteiro("1- Editar detalhes | 2- Editar Competencia | 3- Voltar",
+        opcao = input.validaEntradaDeInteiroComOpcoes("1- Editar detalhes | 2- Editar Competencia | 3- Voltar",
                 1, 3)
         if (opcao == 1) {
             editarDescricao()
@@ -87,7 +87,7 @@ class EditarPerfilCandidatoView {
 
     void editarCompetencia(){
         while (true){
-            opcao = input.validaEntradaDeInteiro("1- Add nova Competencia | 2- Apagar Competencia | 3- Voltar",
+            opcao = input.validaEntradaDeInteiroComOpcoes("1- Add nova Competencia | 2- Apagar Competencia | 3- Voltar",
                     1, 3)
             if (opcao == 1){
                 boolean addCompetencias = competenciaViews.inserirCompetenciaCandidato(candidato.cpf)
@@ -105,7 +105,7 @@ class EditarPerfilCandidatoView {
     }
 
     boolean deletarPerfil(){
-        opcao = input.validaEntradaDeInteiro(
+        opcao = input.validaEntradaDeInteiroComOpcoes(
                 "Certeza que deseja exluir perfil:\n 1- Sim | 2- Não", 1, 2)
         if (opcao == 1){
             servicoCandidato.deletar(LoginManager.getCandidato().cpf)

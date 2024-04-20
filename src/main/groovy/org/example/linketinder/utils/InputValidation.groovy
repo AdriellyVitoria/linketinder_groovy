@@ -7,7 +7,7 @@ class InputValidation {
         scanner = new Scanner(System.in)
     }
 
-    Integer validaEntradaDeInteiro(String pergunta, Integer opcaoInicial, Integer opcaoFinal) {
+    Integer validaEntradaDeInteiroComOpcoes(String pergunta, Integer opcaoInicial, Integer opcaoFinal) {
         while (true) {
             System.out.println(pergunta);
             try {
@@ -16,6 +16,17 @@ class InputValidation {
                     return opcao;
                 }
                 throw new Exception();
+            } catch (Exception e) {
+                System.err.println("Opcao Inválida... Tente novamente\n")
+            }
+        }
+    }
+
+    Integer validaEntradaDeInteiro(String pergunta) {
+        while (true) {
+            System.out.println(pergunta);
+            try {
+                return Integer.parseInt(scanner.next());
             } catch (Exception e) {
                 System.err.println("Opcao Inválida... Tente novamente\n")
             }

@@ -27,7 +27,7 @@ class EntradaCandidatoViews {
 
     void entradaCandidato() {
         while (true){
-            opcao = input.validaEntradaDeInteiro("1- Login | 2- Cadastra | 3- Voltar",
+            opcao = input.validaEntradaDeInteiroComOpcoes("1- Login | 2- Cadastra | 3- Voltar",
                     1 , 3)
             if (opcao == 1) {
                 boolean loginComSucesso = loginCandidato()

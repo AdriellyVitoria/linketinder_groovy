@@ -26,7 +26,7 @@ class VagaViews {
 
     void menuVagas() {
         while (true){
-            opcao = inputValidation.validaEntradaDeInteiro("-----MENU-----" +
+            opcao = inputValidation.validaEntradaDeInteiroComOpcoes("-----MENU-----" +
                     "\n1- Criar Vaga\n2- Listar vagas\n3- Atualizar vaga\n4- Deletar vaga\n5- Voltar",
                     1, 5)
             if (opcao == 1) {
@@ -82,7 +82,7 @@ class VagaViews {
         listar(LoginManager.empresa.getCnpj())
         println("Digite o id da vaga que deseja editar: ")
         Integer id_vaga = Integer.parseInt(scanner.nextLine())
-        opcao = inputValidation.validaEntradaDeInteiro("1- Atualizar detalhes | 2- Atualizar Competencias" +
+        opcao = inputValidation.validaEntradaDeInteiroComOpcoes("1- Atualizar detalhes | 2- Atualizar Competencias" +
                 " | 3- Voltar" , 1, 3)
         if (opcao == 1){
             atualizarDescricao(id_vaga)
@@ -93,7 +93,7 @@ class VagaViews {
 
     void atualizarCompetencia(Integer id_vaga) {
         while (true){
-            opcao = inputValidation.validaEntradaDeInteiro("1- Add nova Competencia | 2- Apagar Competencia |" +
+            opcao = inputValidation.validaEntradaDeInteiroComOpcoes("1- Add nova Competencia | 2- Apagar Competencia |" +
                     " 3- Voltar", 1, 3)
             if (opcao == 1){
                 boolean addCompetencia = competenciaViews.inserirCompetenciaVaga(id_vaga)
@@ -141,7 +141,7 @@ class VagaViews {
         if (listarVaga) {
             println("Digite o id da vaga para excluir: ")
             Integer id_vaga = Integer.parseInt(scanner.nextLine())
-            opcao = inputValidation.validaEntradaDeInteiro("Certeza que deseja excluir:\n1- Sim | 2-Não",
+            opcao = inputValidation.validaEntradaDeInteiroComOpcoes("Certeza que deseja excluir:\n1- Sim | 2-Não",
                     1, 2)
             if (opcao == 1){
                 servicoVaga.deletar(id_vaga)
