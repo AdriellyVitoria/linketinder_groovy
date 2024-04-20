@@ -1,5 +1,6 @@
-package org.example.linketinder.servicos
+package org.example.linketinder.dao.implementacoes
 
+import org.example.linketinder.dao.interfaces.VagaDao
 import org.example.linketinder.database.ConectarBanco
 import org.example.linketinder.modelos.Vaga
 
@@ -7,67 +8,48 @@ import java.sql.Connection
 import java.sql.PreparedStatement
 import java.sql.ResultSet
 
-class VagaServico {
-    private ConectarBanco servicoConectar
-    private VagaCompetenciaServico servicoVagaCompetencia
+class VagaDaoImpl implements VagaDao{
 
-    VagaServico(
-            VagaCompetenciaServico vagaCompetenciaServico,
-           ConectarBanco conectarBancoServico
-    ){
-        servicoConectar = conectarBancoServico
-        servicoVagaCompetencia = vagaCompetenciaServico
+    private ConectarBanco conectarBanco
+    private VagaCompetenciaDaoImpl vagaCompetenciaDao
+
+    VagaDaoImpl (ConectarBanco conectarBanco,
+     VagaCompetenciaDaoImpl vagaCompetenciaDao) {
+        this.conectarBanco = conectarBanco
+        this.vagaCompetenciaDao = vagaCompetenciaDao
     }
 
-    String montarQueryBuscarPorId() {
-        return "SELECT id_vaga, descricao_vaga, titulo_vaga, local_vaga\n " +
-                "FROM linlketinder.vaga WHERE id_vaga =?"
-    }
-
-    String montarQueryBuscarTodas() {
-        return "SELECT id_vaga, descricao_vaga, titulo_vaga, local_vaga " +
-                "FROM linlketinder.vaga"
-    }
-
-    String montarQueryBuscarPorCnpj() {
-        return "SELECT id_vaga, descricao_vaga, titulo_vaga, local_vaga " +
-                "FROM linlketinder.vaga WHERE cnpj_empresa=?"
-    }
-
-
-    void salvarImformacao(String comado, Vaga vaga){
-        Connection conn = servicoConectar.getConexao()
-        PreparedStatement salvar = conn.prepareStatement(comado);
-
-        salvar.setString(1, vaga.getDescricao())
-        salvar.setString(2, vaga.getTitulo())
-        salvar.setString(3, vaga.getLocal())
-        salvar.setString(4, vaga.getCnpj_empresa())
-
-        salvar.executeUpdate();
-        salvar.close();
-    }
-
+    @Override
     boolean criar(Vaga vaga) {
-        String INSERIR = "INSERT INTO linlketinder.vaga" +
-                "(descricao_vaga, titulo_vaga, local_vaga, cnpj_empresa)\n" +
-                "VALUES (?, ?, ?, ?)"
+        String sql = montarSqlCriarVaga()
         try {
-            salvarImformacao(INSERIR, vaga)
+            Connection conn = conectarBanco.getConexao()
+            PreparedStatement salvar = conn.prepareStatement(sql);
+
+            salvar.setString(1, vaga.getDescricao())
+            salvar.setString(2, vaga.getTitulo())
+            salvar.setString(3, vaga.getLocal())
+            salvar.setString(4, vaga.getCnpj_empresa())
+
+            salvar.executeUpdate();
+            salvar.close();
         } catch (Exception exception) {
             System.err.println("Erro em criar" )
-            System.exit(-42);
         }
         return null
     }
 
-    Integer buscaIdVagaCriada() {
-        String sql = "SELECT v.id_vaga " +
-                "FROM linlketinder.vaga v " +
-                "ORDER BY v.id_vaga DESC " +
-                "LIMIT 1"
+    private String montarSqlCriarVaga() {
+        return "INSERT INTO linlketinder.vaga " +
+                "(descricao_vaga, titulo_vaga, local_vaga, cnpj_empresa) " +
+                "VALUES (?, ?, ?, ?)"
+    }
 
-        Connection conn = servicoConectar.getConexao()
+    @Override
+    Integer buscaIdVagaCriada() {
+        String sql = montarSqlBuscarIdVagaCriada()
+
+        Connection conn = conectarBanco.getConexao()
         PreparedStatement vaga = conn.prepareStatement(
                 sql,
                 ResultSet.TYPE_SCROLL_INSENSITIVE,
@@ -86,18 +68,27 @@ class VagaServico {
         return null
     }
 
+    private String montarSqlBuscarIdVagaCriada() {
+        return  "SELECT v.id_vaga " +
+                "FROM linlketinder.vaga v " +
+                "ORDER BY v.id_vaga DESC " +
+                "LIMIT 1"
+    }
+
+    @Override
     ArrayList<Vaga> listarTodas() {
+        String sql = montarQueryBuscarTodas()
         try {
-            Connection conn = servicoConectar.getConexao()
+            Connection conn = conectarBanco.getConexao()
             PreparedStatement vaga = conn.prepareStatement(
-                    montarQueryBuscarTodas(),
+                    sql,
                     ResultSet.TYPE_SCROLL_INSENSITIVE,
                     ResultSet.CONCUR_READ_ONLY
             )
-            ResultSet res = vaga.executeQuery();
-            res.last();
-            int qtd = res.getRow();
-            res.beforeFirst();
+            ResultSet res = vaga.executeQuery()
+            res.last()
+            int qtd = res.getRow()
+            res.beforeFirst()
 
             ArrayList<Vaga> vagas = []
             if(qtd > 0) {
@@ -109,7 +100,7 @@ class VagaServico {
                             res.getString(4)
                     )
                     v.setCompetencias(
-                            servicoVagaCompetencia.listarCompetencia(v.id)
+                            vagaCompetenciaDao.listarCompetencia(v.id)
                     )
                     vagas.add(v)
                 }
@@ -121,11 +112,18 @@ class VagaServico {
         return null
     }
 
+    private String montarQueryBuscarTodas() {
+        return "SELECT id_vaga, descricao_vaga, titulo_vaga, local_vaga " +
+                "FROM linlketinder.vaga"
+    }
+
+    @Override
     ArrayList<Vaga> listar(String cnpj_empresa) {
+        String sql = montarQueryBuscarPorCnpj()
         try {
-            Connection conn = servicoConectar.getConexao()
+            Connection conn = conectarBanco.getConexao()
             PreparedStatement vaga = conn.prepareStatement(
-                    montarQueryBuscarPorCnpj(),
+                    sql,
                     ResultSet.TYPE_SCROLL_INSENSITIVE,
                     ResultSet.CONCUR_READ_ONLY
             )
@@ -145,7 +143,7 @@ class VagaServico {
                             res.getString(4)
                     )
                     v.setCompetencias(
-                            servicoVagaCompetencia.listarCompetencia(v.getId())
+                            vagaCompetenciaDao.listarCompetencia(v.getId())
                     )
                     vagas.add(v)
                 }
@@ -157,11 +155,20 @@ class VagaServico {
         return null
     }
 
+    private String montarQueryBuscarPorCnpj() {
+        return "SELECT id_vaga, descricao_vaga, titulo_vaga, local_vaga " +
+                "FROM linlketinder.vaga WHERE cnpj_empresa=?"
+    }
+
+    @Override
     boolean atualizar(Integer id_vaga, Vaga vaga) {
+        String sql = montarSqlAtualizar()
+        String verificarPorId = montarQueryBuscarPorId()
+
         try {
-            Connection conn = servicoConectar.getConexao()
+            Connection conn = conectarBanco.getConexao()
             PreparedStatement atualizarVaga = conn.prepareStatement(
-                    montarQueryBuscarPorId(),
+                    verificarPorId,
                     ResultSet.TYPE_SCROLL_INSENSITIVE,
                     ResultSet.CONCUR_READ_ONLY
             )
@@ -173,10 +180,7 @@ class VagaServico {
             res.beforeFirst();
 
             if(qtd >0){
-                String ATUALIZAR = "UPDATE linlketinder.vaga " +
-                        "SET descricao_vaga=?, titulo_vaga =?, local_vaga =?\n " +
-                        "\tWHERE cnpj_empresa =? AND id_vaga = ?"
-                PreparedStatement salvar = conn.prepareStatement(ATUALIZAR);
+                PreparedStatement salvar = conn.prepareStatement(sql);
 
                 salvar.setString(1, vaga.getDescricao())
                 salvar.setString(2, vaga.getTitulo())
@@ -195,12 +199,23 @@ class VagaServico {
         return null
     }
 
-    boolean deletar(Integer id_vaga) {
-        String DELETAR = "DELETE FROM linlketinder.vaga WHERE id_vaga =?"
+    private String montarSqlAtualizar() {
+        return "UPDATE linlketinder.vaga " +
+                "SET descricao_vaga=?, titulo_vaga =?, local_vaga =? " +
+                " WHERE cnpj_empresa =? AND id_vaga = ?"
+    }
 
+    private  String montarQueryBuscarPorId() {
+        return "SELECT id_vaga, descricao_vaga, titulo_vaga, local_vaga\n " +
+                "FROM linlketinder.vaga WHERE id_vaga =?"
+    }
+
+    @Override
+    boolean deletar(Integer id_vaga) {
+        String sql = montarSqlDeletar()
         try {
-            Connection conn = servicoConectar.getConexao()
-            PreparedStatement del = conn.prepareStatement(DELETAR)
+            Connection conn = conectarBanco.getConexao()
+            PreparedStatement del = conn.prepareStatement(sql)
             del.setInt(1, id_vaga)
             del.executeUpdate()
             del.close()
@@ -208,5 +223,9 @@ class VagaServico {
             System.err.println("Erro em deletar vaga");
         }
         return null
+    }
+
+    private String montarSqlDeletar() {
+        return "DELETE FROM linlketinder.vaga WHERE id_vaga =?"
     }
 }
