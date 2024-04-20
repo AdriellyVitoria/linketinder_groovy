@@ -1,37 +1,27 @@
-package org.example.linketinder.servicos
+package org.example.linketinder.dao.implementacoes
 
+import org.example.linketinder.dao.interfaces.CandidatoCompetenciaDao
 import org.example.linketinder.database.ConectarBanco
-import org.example.linketinder.modelos.*
+import org.example.linketinder.modelos.Competencia
 
 import java.sql.Connection
 import java.sql.PreparedStatement
 import java.sql.ResultSet
 
-class CandidatoCompetenciaServico {
-    private ConectarBanco servicoConectar
+class CandidatoCompetenciaDaoImpl implements CandidatoCompetenciaDao{
+    private ConectarBanco conectarBanco
 
-    CandidatoCompetenciaServico(
-            ConectarBanco conectarBancoServico
-    ){
-        servicoConectar = conectarBancoServico
+    CandidatoCompetenciaDaoImpl(ConectarBanco conectarBanco) {
+        this.conectarBanco = conectarBanco
     }
 
-    String montarQueryBuscarPorCpf() {
-        return "select " +
-                "\tc.id_competencia, " +
-                "\tc.descricao_competencia " +
-                "from " +
-                "\tlinlketinder.candidato_competencia AS cc " +
-                "\tjoin linlketinder.competencia AS c on c.id_competencia = cc.id_competencia " +
-                "where " +
-                "\tcc.cpf_candidato = ?"
-    }
-
-    ArrayList<Competencia> listarCompetencia(String cpf_candidato){
+    @Override
+    ArrayList<Competencia> listarCompetencia(String cpf_candidato) {
+        String sql = montarQueryBuscarPorCpf()
         try {
-            Connection conexao = servicoConectar.getConexao()
+            Connection conexao = conectarBanco.getConexao()
             PreparedStatement compentenciasQuery = conexao.prepareStatement(
-                    montarQueryBuscarPorCpf(),
+                    sql,
                     ResultSet.TYPE_SCROLL_INSENSITIVE,
                     ResultSet.CONCUR_READ_ONLY
             );
@@ -60,11 +50,23 @@ class CandidatoCompetenciaServico {
         return null
     }
 
-    boolean deletar(Integer id_competencia, String cpf_candidato){
-        String DELETAR = "DELETE FROM linlketinder.candidato_competencia\n " +
-                "WHERE cpf_candidato =? AND id_competencia =?"
+    private String montarQueryBuscarPorCpf() {
+        return "select " +
+                "\tc.id_competencia, " +
+                "\tc.descricao_competencia " +
+                "from " +
+                "\tlinlketinder.candidato_competencia AS cc " +
+                "\tjoin linlketinder.competencia AS c on c.id_competencia = cc.id_competencia " +
+                "where " +
+                "\tcc.cpf_candidato = ?"
+    }
+
+    @Override
+    boolean deletar(Integer id_competencia, String cpf_candidato) {
+        String sql = montarSqlDeletar()
         try {
-            PreparedStatement del = conn.prepareStatement(DELETAR)
+            Connection conn = conectarBanco.getConexao()
+            PreparedStatement del = conn.prepareStatement(sql)
             del.setString(1, cpf_candidato)
             del.setInt(2, id_competencia)
             del.executeUpdate()
@@ -76,12 +78,17 @@ class CandidatoCompetenciaServico {
         return false
     }
 
-    boolean inserir(Integer id_competencia, String cpf_candidato){
-        String INSERIR = "INSERT INTO linlketinder.candidato_competencia(id_competencia, cpf_candidato)" +
-                " VALUES (?, ?)"
+    private String montarSqlDeletar() {
+        return "DELETE FROM linlketinder.candidato_competencia\n " +
+                "WHERE cpf_candidato =? AND id_competencia =?"
+    }
+
+    @Override
+    boolean inserir(Integer id_competencia, String cpf_candidato) {
+        String sql = montarSqlInserir()
         try {
-            Connection conn = servicoConectar.getConexao()
-            PreparedStatement salvar = conn.prepareStatement(INSERIR)
+            Connection conn = conectarBanco.getConexao()
+            PreparedStatement salvar = conn.prepareStatement(sql)
 
             salvar.setInt(1, id_competencia)
             salvar.setString(2, cpf_candidato)
@@ -98,5 +105,10 @@ class CandidatoCompetenciaServico {
             }
         }
         return false
+    }
+
+    private String montarSqlInserir() {
+        return "INSERT INTO linlketinder.candidato_competencia(id_competencia, cpf_candidato)" +
+                " VALUES (?, ?)"
     }
 }

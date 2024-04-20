@@ -1,3 +1,4 @@
+import org.example.linketinder.dao.implementacoes.CandidatoCompetenciaDaoImpl
 import org.example.linketinder.database.ConectarBanco
 import org.example.linketinder.modelos.Competencia
 import org.example.linketinder.servicos.CandidatoCompetenciaServico
@@ -14,7 +15,7 @@ import java.sql.PreparedStatement
 import java.sql.ResultSet
 
 class CandidatoCompetenciaServicoTeste {
-    private CandidatoCompetenciaServico candidatoCompetenciaServico
+    private CandidatoCompetenciaDaoImpl candidatoCompetenciaDaoImpl
 
     CandidatoCompetenciaServicoTeste(){
         Connection connectionMock = mock(Connection.class)
@@ -27,7 +28,7 @@ class CandidatoCompetenciaServicoTeste {
         when(connectionMock.prepareStatement(anyString(), anyInt(), anyInt())).thenReturn(prepareStatementMock)
         when(prepareStatementMock.executeQuery()).thenReturn(resultSetMock)
 
-        candidatoCompetenciaServico = new CandidatoCompetenciaServico(servicoConectarBancoMock)
+        candidatoCompetenciaDaoImpl = new CandidatoCompetenciaDaoImpl(servicoConectarBancoMock)
     }
 
     @Test
@@ -35,7 +36,7 @@ class CandidatoCompetenciaServicoTeste {
         Integer id_competencia = 2
         String cpf_teste = "123"
 
-        boolean retorno = candidatoCompetenciaServico.inserir(id_competencia, cpf_teste)
+        boolean retorno = candidatoCompetenciaDaoImpl.inserir(id_competencia, cpf_teste)
 
         Assert.assertTrue(retorno)
     }
@@ -44,7 +45,7 @@ class CandidatoCompetenciaServicoTeste {
     void testeListarCompetenciaCandidato(){
         String cpf_teste = "123"
 
-        ArrayList<Competencia> retorno = candidatoCompetenciaServico.listarCompetencia(cpf_teste)
+        ArrayList<Competencia> retorno = candidatoCompetenciaDaoImpl.listarCompetencia(cpf_teste)
 
         Assert.assertNotNull(retorno)
     }
@@ -54,7 +55,7 @@ class CandidatoCompetenciaServicoTeste {
         Integer id_competencia = 2
         String cpf_teste = "123"
 
-        boolean retorno = candidatoCompetenciaServico.deletar(id_competencia, cpf_teste)
+        boolean retorno = candidatoCompetenciaDaoImpl.deletar(id_competencia, cpf_teste)
 
         Assert.assertTrue(retorno)
     }
