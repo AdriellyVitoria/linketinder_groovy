@@ -1,5 +1,6 @@
-package org.example.linketinder.servicos
+package org.example.linketinder.dao.implementacoes
 
+import org.example.linketinder.dao.interfaces.VagaCompetenciaDao
 import org.example.linketinder.database.ConectarBanco
 import org.example.linketinder.modelos.Competencia
 
@@ -7,29 +8,20 @@ import java.sql.Connection
 import java.sql.PreparedStatement
 import java.sql.ResultSet
 
-class VagaCompetenciaServico {
-    private ConectarBanco servicoConectar
+class VagaCompetenciaDaoImpl implements VagaCompetenciaDao {
+    private ConectarBanco conectarBanco
 
-    VagaCompetenciaServico(
-           ConectarBanco conectarBancoServico
-    ) {
-        servicoConectar = conectarBancoServico
+    VagaCompetenciaDaoImpl(ConectarBanco conectarBanco) {
+        this.conectarBanco = conectarBanco
     }
 
-    String buscarCompetencia() {
-        return "SELECT " +
-                "c.id_competencia, " +
-                "c.descricao_competencia " +
-                "FROM linlketinder.vaga_competencia vc " +
-                "JOIN linlketinder.competencia c ON c.id_competencia = vc.id_competencia " +
-                "WHERE vc.id_vaga = ?"
-    }
-
+    @Override
     ArrayList<Competencia> listarCompetencia(Integer id_vaga) {
+        String sql = montarSqlBuscarCompetencia()
         try {
-            Connection conexao = servicoConectar.getConexao()
+            Connection conexao = conectarBanco.getConexao()
             PreparedStatement compentenciasQuery = conexao.prepareStatement(
-                    buscarCompetencia(),
+                    sql,
                     ResultSet.TYPE_SCROLL_INSENSITIVE,
                     ResultSet.CONCUR_READ_ONLY
             );
@@ -54,16 +46,25 @@ class VagaCompetenciaServico {
             return competencias
         } catch (Exception exception) {
             System.err.println("Erro ao buscar competencia")
-            System.exit(-42)
         }
+        return null
     }
 
+    private String montarSqlBuscarCompetencia() {
+        return "SELECT " +
+                "c.id_competencia, " +
+                "c.descricao_competencia " +
+                "FROM linlketinder.vaga_competencia vc " +
+                "JOIN linlketinder.competencia c ON c.id_competencia = vc.id_competencia " +
+                "WHERE vc.id_vaga = ?"
+    }
+
+    @Override
     boolean deletar(Integer id_competencia, Integer id_vaga) {
-        String DELETAR = "DELETE FROM linlketinder.vaga_competencia " +
-                "WHERE id_vaga= ? AND id_competencia = ?"
+        String sql = montarSqlDeletar()
         try {
-            Connection conn = servicoConectar.getConexao()
-            PreparedStatement del = conn.prepareStatement(DELETAR)
+            Connection conn = conectarBanco.getConexao()
+            PreparedStatement del = conn.prepareStatement(sql)
             del.setInt(1, id_vaga)
             del.setInt(2, id_competencia)
 
@@ -71,18 +72,22 @@ class VagaCompetenciaServico {
             del.close()
             return true
         } catch (Exception exception) {
-            System.err.println("Erro em deletar Competencia em vaga");
-            System.exit(-42);
+            System.err.println("Erro em deletar Competencia em vaga")
         }
         return false
     }
 
+    private String montarSqlDeletar() {
+        return "DELETE FROM linlketinder.vaga_competencia " +
+                "WHERE id_vaga= ? AND id_competencia = ?"
+    }
+
+    @Override
     boolean inserir(Integer id_competencia, Integer id_vaga) {
-        String INSERIR = "INSERT INTO linlketinder.vaga_competencia(id_competencia, id_vaga) " +
-                "VALUES (?, ?)"
+        String sql = montarSlqInserir()
         try {
-            Connection conn = servicoConectar.getConexao()
-            PreparedStatement salvar = conn.prepareStatement(INSERIR);
+            Connection conn = conectarBanco.getConexao()
+            PreparedStatement salvar = conn.prepareStatement(sql);
             salvar.setInt(1, id_competencia)
             salvar.setInt(2, id_vaga)
 
@@ -100,5 +105,10 @@ class VagaCompetenciaServico {
 
         }
         return false
+    }
+
+    private String montarSlqInserir() {
+        return "INSERT INTO linlketinder.vaga_competencia(id_competencia, id_vaga) " +
+                "VALUES (?, ?)"
     }
 }
