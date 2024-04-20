@@ -1,6 +1,6 @@
+import org.example.linketinder.dao.implementacoes.EmpresaDaoImpl
 import org.example.linketinder.database.ConectarBanco
 import org.example.linketinder.modelos.PessoaJuridica
-import org.example.linketinder.servicos.EmpresaServico
 import org.junit.Assert
 import org.junit.Test
 
@@ -14,7 +14,8 @@ import static org.mockito.Mockito.mock
 import static org.mockito.Mockito.when
 
 class EmpresaServicoTeste {
-    private EmpresaServico empresaServico
+
+    private EmpresaDaoImpl empresaDaoImpl
 
     EmpresaServicoTeste(){
         Connection connectionMock = mock(Connection.class)
@@ -27,7 +28,7 @@ class EmpresaServicoTeste {
         when(connectionMock.prepareStatement(anyString(), anyInt(), anyInt())).thenReturn(prepareStatementMock)
         when(prepareStatementMock.executeQuery()).thenReturn(resultSetMock)
 
-        empresaServico = new EmpresaServico(servicoConectarBancoMock)
+        empresaDaoImpl = new EmpresaDaoImpl(servicoConectarBancoMock)
     }
 
     private PessoaJuridica criarPessoarJuridica(){
@@ -47,7 +48,7 @@ class EmpresaServicoTeste {
     void testeInserirEmpresa() {
         PessoaJuridica empresa = criarPessoarJuridica()
 
-        boolean retorno = empresaServico.inserir(empresa)
+        boolean retorno = empresaDaoImpl.inserir(empresa)
 
         Assert.assertTrue(retorno)
     }
@@ -56,7 +57,7 @@ class EmpresaServicoTeste {
     void testeAtualizarEmpresa() {
         PessoaJuridica empresa = criarPessoarJuridica()
 
-        boolean retorno = empresaServico.atualizar(empresa)
+        boolean retorno = empresaDaoImpl.atualizar(empresa)
 
         Assert.assertTrue(retorno)
     }
@@ -65,7 +66,7 @@ class EmpresaServicoTeste {
     void testeDeletarEmpresa() {
         String cnpj_teste = '123'
 
-        boolean retorno = empresaServico.deletar(cnpj_teste)
+        boolean retorno = empresaDaoImpl.deletar(cnpj_teste)
 
         Assert.assertNotNull(retorno)
     }

@@ -1,6 +1,6 @@
+import org.example.linketinder.dao.implementacoes.CompetenciaDaoImpl
 import org.example.linketinder.database.ConectarBanco
 import org.example.linketinder.modelos.Competencia
-import org.example.linketinder.servicos.CompetenciaServico
 import org.junit.Test
 import org.junit.Assert
 
@@ -14,7 +14,7 @@ import static org.mockito.Mockito.mock
 import static org.mockito.Mockito.when
 
 class CompetenciaServicoTeste {
-    private CompetenciaServico servicoCompetencia
+    private CompetenciaDaoImpl competenciaDaoImpl
 
     CompetenciaServicoTeste() {
         Connection connectionMock = mock(Connection.class)
@@ -27,21 +27,21 @@ class CompetenciaServicoTeste {
         when(connectionMock.prepareStatement(anyString(), anyInt(), anyInt())).thenReturn(prepareStatementMock)
         when(prepareStatementMock.executeQuery()).thenReturn(resultSetMock)
 
-        servicoCompetencia = new CompetenciaServico(servicoConectarBancoMock)
+        competenciaDaoImpl = new CompetenciaDaoImpl(servicoConectarBancoMock)
     }
 
     @Test
     void testeInserirCompeteciaComSucesso() {
         String competencia = 'Java'
 
-        boolean retorno = servicoCompetencia.inserir(competencia)
+        boolean retorno =competenciaDaoImpl.inserir(competencia)
 
         Assert.assertTrue(retorno)
     }
 
     @Test
     void testeListarTodasCompetencias() {
-        ArrayList<Competencia> retorno = servicoCompetencia.listarTodas()
+        ArrayList<Competencia> retorno = competenciaDaoImpl.listarTodas()
 
         Assert.assertNotNull(retorno)
     }
