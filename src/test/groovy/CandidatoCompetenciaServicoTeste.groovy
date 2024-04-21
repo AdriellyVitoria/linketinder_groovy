@@ -49,7 +49,7 @@ class CandidatoCompetenciaServicoTeste {
 
         ArrayList<Competencia> retorno = candidatoCompetenciaServico.listarCompetencia(cpf_teste)
 
-        Assert.assertEquals(retorno, competencias)
+        Assert.assertEquals(competencias, retorno)
         verify(candidatoCompetenciaDaoMock, times(1)).listarCompetencia(cpf_teste)
     }
 

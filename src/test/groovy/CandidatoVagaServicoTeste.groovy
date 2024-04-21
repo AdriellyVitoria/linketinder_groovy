@@ -63,7 +63,7 @@ class CandidatoVagaServicoTeste {
         // Act
         ArrayList<Vaga> retorno = candidatoVagaService.listarPorCpf(cpfTeste)
         // Assert
-        Assert.assertEquals(retorno, vagas)
+        Assert.assertEquals(vagas, retorno)
         verify(candidatoVagaDaoMock, times(1)).listarPorCpf(cpfTeste)
         verify(vagaCompetenciaDaoMock, times(2)).listarCompetencia(anyInt())
     }

@@ -2,6 +2,8 @@ import org.example.linketinder.dao.implementacoes.VagaCompetenciaDaoImpl
 import org.example.linketinder.dao.interfaces.VagaCompetenciaDao
 import org.example.linketinder.database.ConectarBanco
 import org.example.linketinder.modelos.Competencia
+import org.example.linketinder.service.implementacoes.VagaCompetenciaServiceImpl
+import org.example.linketinder.service.interfaces.VagaCompetenciaService
 import org.junit.Assert
 import org.junit.Test
 
@@ -13,24 +15,18 @@ import static org.mockito.ArgumentMatchers.anyInt
 import static org.mockito.ArgumentMatchers.anyString
 
 import static org.mockito.Mockito.mock
+import static org.mockito.Mockito.times
+import static org.mockito.Mockito.verify
 import static org.mockito.Mockito.when
 
 class VagaCompetenciaServicoTeste {
 
-    private VagaCompetenciaDao vagaCompetenciaDao
+    private VagaCompetenciaDao vagaCompetenciaDaoMock
+    private VagaCompetenciaService vagaCompetenciaService
 
     VagaCompetenciaServicoTeste() {
-        Connection connectionMock = mock(Connection.class)
-        ConectarBanco servicoConectarBancoMock = mock(ConectarBanco.class)
-        PreparedStatement prepareStatementMock = mock(PreparedStatement.class)
-        ResultSet resultSetMock = mock(ResultSet.class)
-
-        when(servicoConectarBancoMock.getConexao()).thenReturn(connectionMock)
-        when(connectionMock.prepareStatement(anyString())).thenReturn(prepareStatementMock)
-        when(connectionMock.prepareStatement(anyString(), anyInt(), anyInt())).thenReturn(prepareStatementMock)
-        when(prepareStatementMock.executeQuery()).thenReturn(resultSetMock)
-
-        vagaCompetenciaDao = new VagaCompetenciaDaoImpl(servicoConectarBancoMock)
+        vagaCompetenciaDaoMock = mock(VagaCompetenciaDao.class)
+        vagaCompetenciaService = new VagaCompetenciaServiceImpl(vagaCompetenciaDaoMock)
     }
 
     @Test
@@ -38,28 +34,37 @@ class VagaCompetenciaServicoTeste {
 
         Integer id_competencia = 2
         Integer id_vaga = 2
+        when(vagaCompetenciaDaoMock.inserir(id_competencia, id_vaga)).thenReturn(true)
 
-        boolean retorno = vagaCompetenciaDao.inserir(id_competencia, id_vaga)
+        boolean retorno = vagaCompetenciaService.inserir(id_competencia, id_vaga)
 
         Assert.assertTrue(retorno)
+        verify(vagaCompetenciaDaoMock, times(1)).inserir(id_competencia, id_vaga)
     }
 
     @Test
     void testeDeletarCompetenciaVaga() {
         Integer id_competencia = 2
         Integer id_vaga = 2
+        when(vagaCompetenciaDaoMock.deletar(id_competencia, id_vaga)).thenReturn(true)
 
-        boolean retorno = vagaCompetenciaDao.deletar(id_competencia, id_vaga)
+        boolean retorno = vagaCompetenciaService.deletar(id_competencia, id_vaga)
 
         Assert.assertTrue(retorno)
+        verify(vagaCompetenciaDaoMock, times(1)).deletar(id_competencia, id_vaga)
     }
 
     @Test
     void testeListarCompetenciaVaga() {
         Integer id_Vaga = 1
+        ArrayList<Competencia> competencias = new ArrayList<Competencia>()
+        competencias.add(new Competencia(1, 'java'))
+        competencias.add(new Competencia(2, 'C#'))
+        when(vagaCompetenciaDaoMock.listarCompetencia(id_Vaga)).thenReturn(competencias)
 
-        ArrayList<Competencia> retorno = vagaCompetenciaDao.listarCompetencia(id_Vaga)
+        ArrayList<Competencia> retorno = vagaCompetenciaService.listarCompetencia(id_Vaga)
 
-        Assert.assertNotNull(retorno)
+        Assert.assertEquals(competencias, retorno)
+        verify(vagaCompetenciaDaoMock, times(1)).listarCompetencia(id_Vaga)
     }
 }
