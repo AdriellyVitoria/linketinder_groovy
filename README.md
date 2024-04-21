@@ -15,11 +15,11 @@ Inspirada no core do Linkedin e no aplicativo de relacionamentos Tinder.
 
 Back utilizando o Groovy
 ```bash
-  https://groovy.apache.org/download.html
+ https://github.com/AdriellyVitoria/linketinder_groovy/tree/main/back
 ```
 Front em TypeScript.
 ```bash
-  https://groovy.apache.org/download.html
+  https://github.com/AdriellyVitoria/linketinder_groovy/tree/main/front
 ```
 
 ### Como vai funcionar:
