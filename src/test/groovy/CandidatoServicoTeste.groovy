@@ -52,7 +52,7 @@ class CandidatoServicoTeste {
         boolean resultado = candidatoService.inserir(pessoaFisica)
 
         Assert.assertTrue(resultado)
-        verify(candidatoDaoMock.inserir(pessoaFisica), times(1))
+        verify(candidatoDaoMock, times(1)).inserir(pessoaFisica)
     }
 
     @Test

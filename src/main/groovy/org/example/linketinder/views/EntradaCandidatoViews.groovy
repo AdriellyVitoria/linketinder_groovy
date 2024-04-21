@@ -1,41 +1,26 @@
 package org.example.linketinder.views
 
-
-import org.example.linketinder.servicos.CandidatoServico
+import org.example.linketinder.controllers.CandidatoCompetenciaController
+import org.example.linketinder.controllers.CandidatoController
 import org.example.linketinder.utils.LoginManager
-import org.example.linketinder.factorys.CandidatoServicoFactory
 import org.example.linketinder.modelos.PessoaFisica
 import org.example.linketinder.utils.InputValidation
 
 class EntradaCandidatoViews {
-    private opcao
-    private InputValidation input
-    private PessoaFisica candidato
-    private CandidatoServico servicoCandidato
-    private CandidatoViews candidatoViews
-    private CompetenciaViews competenciaViews
-    private Scanner scanner
+    private static InputValidation input = new InputValidation()
+    private static Scanner scanner = new Scanner(System.in)
 
-    EntradaCandidatoViews(){
-        input = new InputValidation()
-        candidato = new PessoaFisica()
-        servicoCandidato = CandidatoServicoFactory.criarInstancia()
-        candidatoViews = new CandidatoViews(this)
-        competenciaViews = new CompetenciaViews()
-        scanner = new Scanner(System.in)
-    }
-
-    void entradaCandidato() {
+    static void entradaCandidato() {
         while (true){
-            opcao = input.validaEntradaDeInteiroComOpcoes("1- Login | 2- Cadastra | 3- Voltar",
+            Integer opcao = input.validaEntradaDeInteiroComOpcoes("1- Login | 2- Cadastra | 3- Voltar",
                     1 , 3)
             if (opcao == 1) {
-                boolean loginComSucesso = loginCandidato()
+                boolean loginComSucesso = CandidatoController.loginCandidato()
                 if (loginComSucesso) {
                     break
                 }
             } else if (opcao == 2) {
-                boolean cadastroComSucesso = cadastraCandidato()
+                boolean cadastroComSucesso = CandidatoController.cadastraCandidato()
                 if (cadastroComSucesso) {
                     break
                 }
@@ -45,18 +30,19 @@ class EntradaCandidatoViews {
         }
     }
 
-     boolean cadastraCandidato() {
+    static boolean cadastraCandidato() {
         System.out.println("Informe o cpf")
-        candidato.cpf = scanner.nextLine()
-        boolean inserir = servicoCandidato.inserir(imformacoesCandidato())
+        String cpf = scanner.nextLine()
+        PessoaFisica candidato = CandidatoController.preencherInformacoesCandidato(cpf)
+        boolean inserir = CandidatoController.inserir(candidato)
         if (inserir) {
-            boolean addCompetencias = competenciaViews.inserirCompetenciaCandidato(candidato.cpf)
+            LoginManager.setCandidato(
+                    CandidatoController.entradaCandidato(candidato.getEmail(), candidato.getSenha())
+            )
+            println("Candidato " + candidato.getNome() + " foi inserido com sucesso")
+            boolean addCompetencias = CandidatoCompetenciaController.editarCandidatoCompetencia()
             if (addCompetencias) {
-                LoginManager.setCandidato(
-                        servicoCandidato.entradaCandidato(candidato.getEmail(), candidato.getSenha())
-                )
-                println("Candidato " + candidato.getNome() + " foi inserido com sucesso")
-                candidatoViews.menuPrincipalCandidato()
+                CandidatoController.menuPrincipalCandidato()
                 return true
             }
         } else {
@@ -65,16 +51,16 @@ class EntradaCandidatoViews {
         return false
     }
 
-     boolean loginCandidato() {
+    static boolean loginCandidato() {
         println("Email: ")
-        String email_empresa = scanner.nextLine()
+        String email_candidato = scanner.nextLine()
         println("Senha: ")
-        String senha_empresa = scanner.nextLine()
-        PessoaFisica candidato = servicoCandidato.entradaCandidato(email_empresa, senha_empresa)
+        String senha_candidato = scanner.nextLine()
+        PessoaFisica candidato = CandidatoController.entradaCandidato(email_candidato, senha_candidato)
 
         if (candidato != null) {
             LoginManager.setCandidato(candidato)
-            candidatoViews.menuPrincipalCandidato()
+            CandidatoController.menuPrincipalCandidato()
             return true
         } else {
             println("Email ou senha incorretos")
@@ -83,7 +69,10 @@ class EntradaCandidatoViews {
     }
 
 
-    PessoaFisica imformacoesCandidato(){
+    static PessoaFisica imformacoesCandidato(String cpf){
+        PessoaFisica candidato = new PessoaFisica()
+        candidato.cpf = cpf
+
         println("Informe o nome ");
         candidato.nome = scanner.nextLine();
 
@@ -110,5 +99,4 @@ class EntradaCandidatoViews {
 
         return candidato
     }
-
 }

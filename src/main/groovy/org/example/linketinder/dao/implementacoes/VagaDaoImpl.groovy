@@ -34,6 +34,7 @@ class VagaDaoImpl implements VagaDao{
 
             salvar.executeUpdate();
             salvar.close();
+            return true
         } catch (Exception exception) {
             System.err.println("Erro em criar" )
         }

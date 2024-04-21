@@ -1,61 +1,47 @@
 package org.example.linketinder.views
 
-import org.example.linketinder.factorys.EmpresaServicoFactory
-import org.example.linketinder.servicos.EmpresaServico
+import org.example.linketinder.controllers.CandidatoController
+import org.example.linketinder.controllers.EmpresaController
+import org.example.linketinder.controllers.VagaController
 import org.example.linketinder.utils.LoginManager
 import org.example.linketinder.utils.InputValidation
 import org.example.linketinder.modelos.PessoaJuridica
 
 class EmpresaViews {
-    private opcao
-    private InputValidation input
-    private EmpresaServico servicoEmpresa
-    private PessoaJuridica empresa
-    private VagaViews vaga
-    private EntradaEmpresaView entradaEmpresaView
+    private static InputValidation input = new InputValidation()
 
-
-    EmpresaViews(EntradaEmpresaView entradaEmpresaView) {
-        input = new InputValidation()
-        servicoEmpresa = EmpresaServicoFactory.criarInstancia()
-        empresa = new PessoaJuridica()
-        vaga = new VagaViews(this)
-        this.entradaEmpresaView = entradaEmpresaView
-    }
-
-    void menuPrincipalEmpresa() {
+    static void menuPrincipalEmpresa() {
         while (true) {
-            opcao = input.validaEntradaDeInteiroComOpcoes("-----MENU-----" +
+            Integer opcao = input.validaEntradaDeInteiroComOpcoes("-----MENU-----" +
                     "\n1- Menu vaga\n2- Editar perfil\n3- Sair do programa",
                     1, 3)
             if (opcao == 1){
-                vaga.menuVagas()
+                VagaController.menuVagas()
             } else if (opcao == 2){
-                boolean delete = menuEditarPerfilEmpresa()
+                boolean delete = EmpresaController.menuEditarPerfilEmpresa()
                 if (delete) {
-                    LoginManager.logout()
+                    CandidatoController.logout()
                     break
                 }
             } else {
                 println("Volte Sempre...")
-                LoginManager.logout()
+                CandidatoController.logout()
                 break
             }
         }
     }
 
-    boolean menuEditarPerfilEmpresa(){
+    static boolean menuEditarPerfilEmpresa(PessoaJuridica empresa){
         while (true){
-            opcao = input.validaEntradaDeInteiroComOpcoes(
+            Integer opcao = input.validaEntradaDeInteiroComOpcoes(
                     "1- Ver perfil\n2- Editar perfil\n3- Excluir Perfil\n4- Voltar para o menu principal",
                     1, 4)
             if (opcao == 1){
-                PessoaJuridica empresa = LoginManager.getEmpresa()
                 println(empresa)
             } else if (opcao == 2){
-                EditarPerfil()
+                EmpresaController.editarPerfil()
             } else if(opcao == 3){
-                boolean deletarPerfilComSucesso = deletarPerfil()
+                boolean deletarPerfilComSucesso = EmpresaController.exibirDeletarPerfil()
                 if (deletarPerfilComSucesso) {
                     return true
                 }
@@ -66,12 +52,9 @@ class EmpresaViews {
         return false
     }
 
-    void EditarPerfil() {
-        empresa.setCnpj(
-                LoginManager.getEmpresa().cnpj
-        )
-        PessoaJuridica empresa = entradaEmpresaView.imformacoesEmpresa()
-        String verificacaoAtualizacao = servicoEmpresa.atualizar(empresa)
+    static void editarPerfil() {
+        PessoaJuridica empresa = EmpresaController.editarInformacoesEmpresa()
+        String verificacaoAtualizacao = EmpresaController.atualizar(empresa)
         if (verificacaoAtualizacao) {
             LoginManager.setEmpresa(empresa)
             println("A empresa foi atualizando com sucesso")
@@ -80,12 +63,11 @@ class EmpresaViews {
         }
     }
 
-    boolean deletarPerfil(){
-        opcao = input.validaEntradaDeInteiroComOpcoes(
+    static boolean deletarPerfil(){
+        Integer opcao = input.validaEntradaDeInteiroComOpcoes(
                 "Certeza que deseja exluir empresa:\n 1- Sim | 2- Não", 1, 2)
         if (opcao == 1){
-            String cnpj = LoginManager.getEmpresa().cnpj
-            servicoEmpresa.deletar(cnpj)
+            EmpresaController.deletarPerfil()
             println("Apagado com sucesso")
             return true
         }

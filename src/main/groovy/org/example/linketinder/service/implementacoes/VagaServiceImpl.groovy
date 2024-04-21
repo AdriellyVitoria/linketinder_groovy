@@ -17,12 +17,16 @@ class VagaServiceImpl implements VagaService{
     }
 
     @Override
-    boolean criar(Vaga vaga) {
-        return vagaDao.criar(vaga)
+    Vaga criar(Vaga vaga) {
+        boolean criada = vagaDao.criar(vaga)
+        if (criada) {
+            vaga.id = buscaIdVagaCriada()
+            return vaga
+        }
+        return null
     }
 
-    @Override
-    Integer buscaIdVagaCriada() {
+    private Integer buscaIdVagaCriada() {
         return vagaDao.buscaIdVagaCriada()
     }
 

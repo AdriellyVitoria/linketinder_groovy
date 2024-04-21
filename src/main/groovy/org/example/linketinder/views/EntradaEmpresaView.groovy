@@ -1,31 +1,17 @@
 package org.example.linketinder.views
 
-
-import org.example.linketinder.factorys.EmpresaServicoFactory
+import org.example.linketinder.controllers.EmpresaController
 import org.example.linketinder.modelos.PessoaJuridica
-import org.example.linketinder.servicos.EmpresaServico
 import org.example.linketinder.utils.InputValidation
 import org.example.linketinder.utils.LoginManager
 
 class EntradaEmpresaView {
-    private opcao
-    private InputValidation input
-    private Scanner scanner
-    private EmpresaServico servicoEmpresa
-    private PessoaJuridica empresa
-    private EmpresaViews empresaViews
+    private static InputValidation input = new InputValidation()
+    private static Scanner scanner = new Scanner(System.in)
 
-    EntradaEmpresaView(){
-        input = new InputValidation()
-        scanner = new Scanner(System.in)
-        servicoEmpresa = EmpresaServicoFactory.criarInstancia()
-        empresa = new PessoaJuridica()
-        empresaViews = new EmpresaViews(this)
-    }
-
-    void opcaoLoginCadastroEmpresa() {
+    static void opcaoLoginCadastroEmpresa() {
         while (true){
-            opcao = input.validaEntradaDeInteiroComOpcoes("1- Login | 2- Cadastra | 3- Voltar",
+            Integer opcao = input.validaEntradaDeInteiroComOpcoes("1- Login | 2- Cadastra | 3- Voltar",
                     1, 3)
             if (opcao == 1) {
                 println("Email: ")
@@ -34,11 +20,11 @@ class EntradaEmpresaView {
                 println("Senha: ")
                 String senha_empresa = scanner.nextLine();
 
-                PessoaJuridica empresa = servicoEmpresa.entradaEmpresa(email_empresa, senha_empresa)
+                PessoaJuridica empresa = EmpresaController.entradaEmpresa(email_empresa, senha_empresa)
 
                 if (empresa != null) {
                     LoginManager.setEmpresa(empresa)
-                    empresaViews.menuPrincipalEmpresa()
+                    EmpresaController.menuPrincipalEmpresa()
                     break
                 } else {
                     println("Email ou senha incorretos")
@@ -46,13 +32,13 @@ class EntradaEmpresaView {
             } else if(opcao == 2) {
 
                 println("Informe o cnpj")
-                empresa.setCnpj(scanner.nextLine())
-
-                boolean inserir = servicoEmpresa.inserir(imformacoesEmpresa())
+                String cnpj = scanner.nextLine()
+                PessoaJuridica empresa = EmpresaController.preencherInformacoesEmpresa(cnpj)
+                boolean inserir = EmpresaController.inserir(empresa)
                 if (inserir){
                     println("Empresa " + empresa.getNome() + " foi inserido com sucesso")
                     LoginManager.setEmpresa(empresa)
-                    empresaViews.menuPrincipalEmpresa()
+                    EmpresaController.menuPrincipalEmpresa()
                     break
                 }
             } else {
@@ -61,7 +47,10 @@ class EntradaEmpresaView {
         }
     }
 
-    PessoaJuridica imformacoesEmpresa() {
+    static PessoaJuridica imformacoesEmpresa(String cnpj) {
+        PessoaJuridica empresa = new PessoaJuridica()
+        empresa.setCnpj(cnpj)
+
         println("Informe o nome")
         empresa.setNome(scanner.nextLine())
 
