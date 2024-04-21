@@ -2,6 +2,8 @@ import org.example.linketinder.dao.implementacoes.CompetenciaDaoImpl
 import org.example.linketinder.dao.interfaces.CompetenciaDao
 import org.example.linketinder.database.ConectarBanco
 import org.example.linketinder.modelos.Competencia
+import org.example.linketinder.service.implementacoes.CompetenciaServiceImpl
+import org.example.linketinder.service.interfaces.CompetenciaService
 import org.junit.Test
 import org.junit.Assert
 
@@ -12,38 +14,41 @@ import java.sql.ResultSet
 import static org.mockito.ArgumentMatchers.anyInt
 import static org.mockito.ArgumentMatchers.anyString
 import static org.mockito.Mockito.mock
+import static org.mockito.Mockito.times
+import static org.mockito.Mockito.verify
 import static org.mockito.Mockito.when
 
 class CompetenciaServicoTeste {
-    private CompetenciaDao competenciaDao
+    private CompetenciaDao competenciaDaoMck
+    private CompetenciaService competenciaService
 
     CompetenciaServicoTeste() {
-        Connection connectionMock = mock(Connection.class)
-        ConectarBanco servicoConectarBancoMock = mock(ConectarBanco.class)
-        PreparedStatement prepareStatementMock = mock(PreparedStatement.class)
-        ResultSet resultSetMock = mock(ResultSet.class)
-
-        when(servicoConectarBancoMock.getConexao()).thenReturn(connectionMock)
-        when(connectionMock.prepareStatement(anyString())).thenReturn(prepareStatementMock)
-        when(connectionMock.prepareStatement(anyString(), anyInt(), anyInt())).thenReturn(prepareStatementMock)
-        when(prepareStatementMock.executeQuery()).thenReturn(resultSetMock)
-
-        competenciaDao = new CompetenciaDaoImpl(servicoConectarBancoMock)
+        competenciaDaoMck = mock(CompetenciaDao.class)
+        competenciaService = new CompetenciaServiceImpl(competenciaDaoMck)
     }
 
     @Test
     void testeInserirCompeteciaComSucesso() {
         String competencia = 'Java'
+        when(competenciaDaoMck.inserir(competencia)).thenReturn(true)
 
-        boolean retorno =competenciaDao.inserir(competencia)
+        boolean retorno = competenciaService.inserir(competencia)
 
         Assert.assertTrue(retorno)
+        verify(competenciaDaoMck, times(1)).inserir(competencia)
     }
 
     @Test
     void testeListarTodasCompetencias() {
-        ArrayList<Competencia> retorno = competenciaDao.listarTodas()
+        ArrayList<Competencia> competencias = new ArrayList<Competencia>()
+        competencias.add(new Competencia(1, 'java'))
+        competencias.add(new Competencia(2, 'C#'))
 
-        Assert.assertNotNull(retorno)
+        when(competenciaDaoMck.listarTodas()).thenReturn(competencias)
+
+        ArrayList<Competencia> retorno = competenciaService.listarTodas()
+
+        Assert.assertEquals(competencias, retorno)
+        verify(competenciaDaoMck, times(1)).listarTodas()
     }
 }
