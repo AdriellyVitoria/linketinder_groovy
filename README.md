@@ -13,14 +13,7 @@ Projeto desenvolvido no programa de capacitação AcelerarZG, chamando LinkeTind
 ### Por que o nome é LinkeTinder?
 Inspirada no core do Linkedin e no aplicativo de relacionamentos Tinder.
 
-Back utilizando o Groovy
-```bash
- https://github.com/AdriellyVitoria/linketinder_groovy/tree/main/back
-```
-Front em TypeScript.
-```bash
-  https://github.com/AdriellyVitoria/linketinder_groovy/tree/main/front
-```
+Back utilizando o Groovy e o Front em TypeScript.
 
 ### Como vai funcionar:
 A ideia é combinar a funcionalidade de Match do Tinder.<br />
