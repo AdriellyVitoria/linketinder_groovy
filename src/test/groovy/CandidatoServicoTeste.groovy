@@ -1,20 +1,12 @@
-import org.example.linketinder.dao.implementacoes.CandidatoCompetenciaDaoImpl
-import org.example.linketinder.dao.implementacoes.CandidatoDaoImpl
 import org.example.linketinder.dao.interfaces.CandidatoCompetenciaDao
 import org.example.linketinder.dao.interfaces.CandidatoDao
-import org.example.linketinder.database.ConectarBanco
+import org.example.linketinder.modelos.Competencia
+import org.example.linketinder.modelos.LoginRequest
 import org.example.linketinder.modelos.PessoaFisica
 import org.example.linketinder.service.implementacoes.CandidatoServiceImpl
 import org.example.linketinder.service.interfaces.CandidatoService
 import org.junit.Assert
 import org.junit.Test
-
-import java.sql.Connection
-import java.sql.PreparedStatement
-import java.sql.ResultSet
-
-import static org.mockito.ArgumentMatchers.anyInt
-import static org.mockito.ArgumentMatchers.anyString
 import static org.mockito.Mockito.mock
 import static org.mockito.Mockito.times
 import static org.mockito.Mockito.verify
@@ -45,6 +37,27 @@ class CandidatoServicoTeste {
     }
 
     @Test
+    void testeEntradaCandidato() {
+        // Arrange
+        LoginRequest loginRequest = new LoginRequest('mendes@', '123')
+        PessoaFisica pessoaFisica = criarPessoarFisica()
+        ArrayList<Competencia> competencias = new ArrayList<Competencia>()
+        competencias.add(new Competencia(1, 'java'))
+        competencias.add(new Competencia(2, 'C#'))
+        when(candidatoDaoMock.entradaCandidato(loginRequest)).thenReturn(pessoaFisica)
+        when(candidatoCompetenciaDaoMock.listarCompetencia(pessoaFisica.cpf)).thenReturn(competencias)
+
+        //Act
+        PessoaFisica retorno = candidatoService.entradaCandidato(loginRequest)
+
+        // Assert
+        Assert.assertEquals(retorno, pessoaFisica)
+        Assert.assertEquals(retorno.competencias, competencias)
+        verify(candidatoDaoMock, times(1)).entradaCandidato(loginRequest)
+        verify(candidatoCompetenciaDaoMock, times(1)).listarCompetencia(pessoaFisica.cpf)
+    }
+
+    @Test
     void testeInserirCandidato(){
         PessoaFisica pessoaFisica = criarPessoarFisica()
         when(candidatoDaoMock.inserir(pessoaFisica)).thenReturn(true)
@@ -57,19 +70,23 @@ class CandidatoServicoTeste {
 
     @Test
     void testeAtualizarPessoa() {
-    PessoaFisica pessoaFisica = criarPessoarFisica()
+        PessoaFisica pessoaFisica = criarPessoarFisica()
+        when(candidatoDaoMock.atualizar(pessoaFisica)).thenReturn(true)
 
-    boolean retorno = candidatoDao.atualizar(pessoaFisica)
+        boolean retorno = candidatoService.atualizar(pessoaFisica)
 
-    Assert.assertTrue(retorno)
+        Assert.assertTrue(retorno)
+        verify(candidatoDaoMock, times(1)).atualizar(pessoaFisica)
     }
 
     @Test
     void testeDeletarCandidato() {
         String cpf_teste = '123'
+        when(candidatoDaoMock.deletar(cpf_teste)).thenReturn(true)
 
-        boolean retorno = candidatoDao.deletar(cpf_teste)
+        boolean retorno = candidatoService.deletar(cpf_teste)
 
         Assert.assertTrue(retorno)
+        verify(candidatoDaoMock, times(1)).deletar(cpf_teste)
     }
 }
