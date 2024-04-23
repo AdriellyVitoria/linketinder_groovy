@@ -10,7 +10,7 @@ class Main {
         CandidatoController candidatoController = FactoryController.criarInstanciaCandidato()
         EmpresaController empresaController = FactoryController.criarInstanciaEmpresa()
 
-        Servidor servidor = new Servidor(candidatoController empresaController)
+        Servidor servidor = new Servidor(candidatoController, empresaController)
 
         servidor.iniciarServidor()
     }

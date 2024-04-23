@@ -38,14 +38,13 @@ class CandidatoDaoImpl implements CandidatoDao{
             salvar.close();
             return true
         }catch (Exception e) {
-            System.err.println ("ERRO AO CADASTRAR")
             if (e.message.contains("key")) {
-                System.err.println("CPF já cadastrado!");
+                throw new Exception("CPF já cadastrado!")
             }
             if (e.message.contains("email")) {
-                System.err.println("Email já cadastrado!");
+                throw new Exception("Email já cadastrado!")
             }
-            return false
+            throw new Exception("ERRO AO CADASTRAR")
         }
     }
 
