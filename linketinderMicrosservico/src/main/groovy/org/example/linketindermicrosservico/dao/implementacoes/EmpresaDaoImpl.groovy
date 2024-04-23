@@ -35,15 +35,14 @@ class EmpresaDaoImpl implements EmpresaDao {
             salvar.close();
             return true
         } catch (Exception exception) {
-            System.err.println ("ERRO AO CADASTRAR")
             if (exception.message.contains("key")) {
-                System.err.println("CPF já cadastrado!");
+                throw new Exception("CNPJ já cadastrado!")
             }
             if (exception.message.contains("email")) {
-                System.err.println("Email já cadastrado!");
+                throw new Exception("Email já cadastrado!")
             }
+            throw new Exception("ERRO AO CADASTRAR")
         }
-        return false
     }
 
     private String montarSqlInserir() {

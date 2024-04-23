@@ -2,7 +2,8 @@ import org.example.linketindermicrosservico.dao.interfaces.CandidatoDao
 import org.example.linketindermicrosservico.modelos.PessoaFisica
 import org.example.linketindermicrosservico.services.implemetacoes.CandidatoServiceImpl
 import org.example.linketindermicrosservico.services.interfaces.CandidatoService
-import org.junit.jupiter.api.Test
+import org.junit.Test
+
 
 class CandidatoSericeTeste {
     private CandidatoDao candidatoDaoMock
@@ -26,7 +27,7 @@ class CandidatoSericeTeste {
         )
     }
 
-    @org.junit.Test
+    @Test
     void testeInserirCandidato(){
         PessoaFisica pessoaFisica = criarPessoarFisica()
         when(candidatoDaoMock.inserir(pessoaFisica)).thenReturn(true)

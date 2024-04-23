@@ -30,7 +30,7 @@ class CandidatoController {
             String response = new Gson().toJson(pessoaFisica)
             sendResponse(request, 201, response)
         } catch (Exception e) {
-            sendResponse(request, 400, "Bad Request: " + e.message)
+            sendResponse(request, 400, e.message)
         }
     }
 
