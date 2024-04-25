@@ -6,6 +6,7 @@ import org.example.linketinder.controllers.CandidatoController
 import org.example.linketinder.controllers.CandidatoVagaController
 import org.example.linketinder.controllers.CompetenciaController
 import org.example.linketinder.controllers.EmpresaController
+import org.example.linketinder.controllers.LoginController
 import org.example.linketinder.controllers.VagaCompetenciaController
 import org.example.linketinder.controllers.VagaController
 import org.example.linketinder.factorys.ControllerFactory
@@ -19,6 +20,7 @@ class Servidor {
     private EmpresaController empresaController
     private VagaCompetenciaController vagaCompetenciaController
     private VagaController vagaController
+    private LoginController loginController
 
     Servidor() {
         candidatoCompetenciaController = ControllerFactory.criarCandidatoCompetencia()
@@ -28,6 +30,7 @@ class Servidor {
         empresaController = ControllerFactory.criarEmpresa()
         vagaCompetenciaController = ControllerFactory.criarVagaCompetencia()
         vagaController = ControllerFactory.criarVaga()
+        loginController = ControllerFactory.criarLogin()
     }
 
     void iniciarServidor() {
@@ -41,6 +44,7 @@ class Servidor {
             server.createContext("/empresa", {request -> empresaController.handleRequest(request)})
             server.createContext("/vaga/competencia", {request -> vagaCompetenciaController.handleRequest(request)})
             server.createContext("/vaga", {request -> vagaController.handleRequest(request)})
+            server.createContext("/login", {request -> loginController.handleRequest(request)})
 
             server.start()
             println('servidor rodando na porta 8080')

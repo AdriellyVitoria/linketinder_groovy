@@ -1,8 +1,15 @@
 package org.example.linketinder.controllers
 
+import com.google.gson.Gson
 import com.sun.net.httpserver.HttpExchange
 
 abstract class Controller {
+    protected Gson gson
+
+    Controller() {
+        gson = new Gson()
+    }
+
     void handleRequest(HttpExchange request) {
         String metodo = request.getRequestMethod()
 

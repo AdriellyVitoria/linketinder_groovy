@@ -5,6 +5,7 @@ import org.example.linketinder.controllers.CandidatoController
 import org.example.linketinder.controllers.CandidatoVagaController
 import org.example.linketinder.controllers.CompetenciaController
 import org.example.linketinder.controllers.EmpresaController
+import org.example.linketinder.controllers.LoginController
 import org.example.linketinder.controllers.VagaCompetenciaController
 import org.example.linketinder.controllers.VagaController
 import org.example.linketinder.service.interfaces.CandidatoCompetenciaServico
@@ -12,10 +13,16 @@ import org.example.linketinder.service.interfaces.CandidatoService
 import org.example.linketinder.service.interfaces.CandidatoVagaService
 import org.example.linketinder.service.interfaces.CompetenciaService
 import org.example.linketinder.service.interfaces.EmpresaService
+import org.example.linketinder.service.interfaces.LoginService
 import org.example.linketinder.service.interfaces.VagaCompetenciaService
 import org.example.linketinder.service.interfaces.VagaService
 
 class ControllerFactory {
+    static LoginController criarLogin() {
+        LoginService loginService = ServiceFactory.criarLogin()
+        return new LoginController(loginService)
+    }
+
     static CandidatoCompetenciaController criarCandidatoCompetencia() {
         CandidatoCompetenciaServico candidatoCompetenciaServico = ServiceFactory.criarInstanciaCandidatoCompetencia()
         return new CandidatoCompetenciaController(candidatoCompetenciaServico)

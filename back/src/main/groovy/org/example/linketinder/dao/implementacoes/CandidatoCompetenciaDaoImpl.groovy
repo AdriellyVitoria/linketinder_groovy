@@ -2,6 +2,7 @@ package org.example.linketinder.dao.implementacoes
 
 import org.example.linketinder.dao.interfaces.CandidatoCompetenciaDao
 import org.example.linketinder.database.ConectarBanco
+import org.example.linketinder.exceptions.DadosDuplicadosException
 import org.example.linketinder.modelos.Competencia
 
 import java.sql.Connection
@@ -45,7 +46,7 @@ class CandidatoCompetenciaDaoImpl implements CandidatoCompetenciaDao{
             }
             return competencias
         } catch (Exception exception) {
-            System.err.println("Erro ao buscar competencia")
+           throw new Exception("Erro ao buscar competencia")
         }
         return null
     }
@@ -73,7 +74,7 @@ class CandidatoCompetenciaDaoImpl implements CandidatoCompetenciaDao{
             del.close()
             return true
         } catch (Exception exception) {
-            System.err.println("Voce não possue essa competencia")
+           throw new Exception("Voce não possue essa competencia")
         }
         return false
     }
@@ -96,13 +97,13 @@ class CandidatoCompetenciaDaoImpl implements CandidatoCompetenciaDao{
             salvar.close();
             return true
         } catch (Exception exception) {
-            System.err.println("Erro ao add competencia")
             if (exception.message.contains("candidato_competencia_id_competencia_fkey")){
                 System.err.println("Essa competencia não existe")
             }
             if (exception.message.contains("candidato_competencia_pkey")){
-                System.err.println("Voce já inserir essa competencia")
+               throw new DadosDuplicadosException("Voce já inserir essa competencia")
             }
+            throw new Exception("Erro ao add competencia")
         }
         return false
     }

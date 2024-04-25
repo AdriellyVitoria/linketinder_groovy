@@ -13,11 +13,6 @@ class EmpresaServiceImpl implements EmpresaService {
     }
 
     @Override
-    PessoaJuridica entradaEmpresa(LoginRequest loginRequest) {
-        return empresaDao.entradaEmpresa(loginRequest)
-    }
-
-    @Override
     boolean inserir(PessoaJuridica empresa) {
         return empresaDao.inserir(empresa)
     }

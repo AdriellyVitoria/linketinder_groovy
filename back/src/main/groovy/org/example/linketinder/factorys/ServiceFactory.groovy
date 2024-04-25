@@ -1,6 +1,6 @@
 package org.example.linketinder.factorys
 
-import org.example.linketinder.factorys.DaoFactory
+import org.example.linketinder.dao.interfaces.LoginDao
 import org.example.linketinder.dao.interfaces.CandidatoCompetenciaDao
 import org.example.linketinder.dao.interfaces.CandidatoDao
 import org.example.linketinder.dao.interfaces.CandidatoVagaDao
@@ -13,6 +13,7 @@ import org.example.linketinder.service.implementacoes.CandidatoCompetenciaServic
 import org.example.linketinder.service.implementacoes.CandidatoVagaServiceImpl
 import org.example.linketinder.service.implementacoes.CompetenciaServiceImpl
 import org.example.linketinder.service.implementacoes.EmpresaServiceImpl
+import org.example.linketinder.service.implementacoes.LoginServiceImpl
 import org.example.linketinder.service.implementacoes.VagaCompetenciaServiceImpl
 import org.example.linketinder.service.implementacoes.VagaServiceImpl
 import org.example.linketinder.service.interfaces.CandidatoCompetenciaServico
@@ -20,14 +21,21 @@ import org.example.linketinder.service.interfaces.CandidatoService
 import org.example.linketinder.service.interfaces.CandidatoVagaService
 import org.example.linketinder.service.interfaces.CompetenciaService
 import org.example.linketinder.service.interfaces.EmpresaService
+import org.example.linketinder.service.interfaces.LoginService
 import org.example.linketinder.service.interfaces.VagaCompetenciaService
 import org.example.linketinder.service.interfaces.VagaService
 
 class ServiceFactory {
+
+    static LoginService criarLogin() {
+        LoginDao loginDao = DaoFactory.criarLogin()
+        CandidatoCompetenciaDao candidatoCompetenciaDao = DaoFactory.criarInstanciaCandidatoCompetencia()
+        return new LoginServiceImpl(loginDao, candidatoCompetenciaDao)
+    }
+
     static CandidatoService criarInstanciaCandidato() {
         CandidatoDao candidatoDao = DaoFactory.criarInstanciaCandidato()
-        CandidatoCompetenciaDao candidatoCompetenciaDao = DaoFactory.criarInstanciaCandidatoCompetencia()
-        return new CandidatoServiceImpl(candidatoDao, candidatoCompetenciaDao)
+        return new CandidatoServiceImpl(candidatoDao)
     }
 
     static EmpresaService criarInstanciaEmpresa() {

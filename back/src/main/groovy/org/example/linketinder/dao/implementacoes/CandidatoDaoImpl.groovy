@@ -1,14 +1,12 @@
 package org.example.linketinder.dao.implementacoes
 
-import org.example.linketinder.dao.interfaces.CandidatoCompetenciaDao
 import org.example.linketinder.dao.interfaces.CandidatoDao
 import org.example.linketinder.database.ConectarBanco
-import org.example.linketinder.modelos.LoginRequest
+import org.example.linketinder.exceptions.DadosDuplicadosException
 import org.example.linketinder.modelos.PessoaFisica
 
 import java.sql.Connection
 import java.sql.PreparedStatement
-import java.sql.ResultSet
 
 class CandidatoDaoImpl implements CandidatoDao {
     private ConectarBanco conectarBanco
@@ -19,60 +17,9 @@ class CandidatoDaoImpl implements CandidatoDao {
         this.conectarBanco = conectarBanco
     }
 
-    @Override
-    PessoaFisica entradaCandidato(LoginRequest request) {
-        String sql = verificacaoParalogin()
-        try {
-            Connection conexao = conectarBanco.getConexao()
-            PreparedStatement candidato = conexao.prepareStatement(
-                    sql,
-                    ResultSet.TYPE_SCROLL_INSENSITIVE,
-                    ResultSet.CONCUR_READ_ONLY
-            );
-            candidato.setString(1, request.email)
-            candidato.setString(2, request.senha)
-            ResultSet res = candidato.executeQuery()
-
-            res.last()
-            int qtd = res.getRow()
-            res.beforeFirst()
-
-            if (qtd > 0) {
-                while (res.next()) {
-                    PessoaFisica c = new PessoaFisica(
-                            res.getString(1),
-                            res.getString(2),
-                            res.getString(3),
-                            res.getString(4),
-                            res.getString(5),
-                            res.getString(6),
-                            res.getInt(7),
-                            res.getString(8),
-                    )
-                    return c
-                }
-            }
-        } catch (Exception exception){
-            System.err.println("Erro em entrar");
-        }
-        return null
-    }
-
-    private String verificacaoParalogin() {
-        return "SELECT c.cpf_candidato," +
-                "c.nome_candidato, " +
-                "c.email_candidato, " +
-                "c.telefone_candidato, " +
-                "c.cep_candidato, " +
-                "c.descricao_candidato, " +
-                "c.idade_candidato, " +
-                "c.estado_candidato " +
-                "FROM linlketinder.candidato As c " +
-                "WHERE email_candidato=? AND senha_candidato=?"
-    }
 
     @Override
-    boolean inserir(PessoaFisica candidato) {
+    PessoaFisica inserir(PessoaFisica candidato) {
         String sql = montarSqlInserir()
         try {
             Connection conn = conectarBanco.getConexao()
@@ -90,16 +37,15 @@ class CandidatoDaoImpl implements CandidatoDao {
 
             salvar.executeUpdate();
             salvar.close();
-            return true
+            return candidato
         }catch (Exception e) {
-            System.err.println ("ERRO AO CADASTRAR")
             if (e.message.contains("key")) {
-                System.err.println("CPF já cadastrado!");
+                throw new DadosDuplicadosException("CPF já cadastrado!")
             }
             if (e.message.contains("email")) {
-                System.err.println("Email já cadastrado!");
+                throw new DadosDuplicadosException("Email já cadastrado!")
             }
-            return false
+            throw new Exception("ERRO AO CADASTRAR")
         }
     }
 

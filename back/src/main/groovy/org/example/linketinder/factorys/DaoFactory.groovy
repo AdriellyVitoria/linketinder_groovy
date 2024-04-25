@@ -5,6 +5,7 @@ import org.example.linketinder.dao.implementacoes.CandidatoDaoImpl
 import org.example.linketinder.dao.implementacoes.CandidatoVagaDaoImpl
 import org.example.linketinder.dao.implementacoes.CompetenciaDaoImpl
 import org.example.linketinder.dao.implementacoes.EmpresaDaoImpl
+import org.example.linketinder.dao.implementacoes.LoginDaoImpl
 import org.example.linketinder.dao.implementacoes.VagaCompetenciaDaoImpl
 import org.example.linketinder.dao.implementacoes.VagaDaoImpl
 import org.example.linketinder.dao.interfaces.CandidatoCompetenciaDao
@@ -12,11 +13,18 @@ import org.example.linketinder.dao.interfaces.CandidatoDao
 import org.example.linketinder.dao.interfaces.CandidatoVagaDao
 import org.example.linketinder.dao.interfaces.CompetenciaDao
 import org.example.linketinder.dao.interfaces.EmpresaDao
+import org.example.linketinder.dao.interfaces.LoginDao
 import org.example.linketinder.dao.interfaces.VagaCompetenciaDao
 import org.example.linketinder.dao.interfaces.VagaDao
 import org.example.linketinder.database.ConectarBanco
 
 class DaoFactory {
+
+    static LoginDao criarLogin() {
+        ConectarBanco conectarBanco = ConectarBanco.criarInstancia()
+        return new LoginDaoImpl(conectarBanco)
+    }
+
     static CandidatoCompetenciaDao criarInstanciaCandidatoCompetencia() {
         ConectarBanco conectarBanco = ConectarBanco.criarInstancia()
         return new CandidatoCompetenciaDaoImpl(conectarBanco)
@@ -29,7 +37,6 @@ class DaoFactory {
 
     static CandidatoVagaDao criarInstanciaCandidatoVaga() {
         ConectarBanco conectarBanco = ConectarBanco.criarInstancia()
-
         return new CandidatoVagaDaoImpl(conectarBanco)
     }
 
