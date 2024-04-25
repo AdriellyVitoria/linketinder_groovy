@@ -1,11 +1,10 @@
 package org.example.linketinder
 
-
-import org.example.linketinder.menu.Menu
+import org.example.linketinder.servidor.Servidor
 
 class Main {
     static void main(String[] args) {
-        Menu menu = new Menu()
-        menu.menuInicial()
+        Servidor servidor = new Servidor()
+        servidor.iniciarServidor()
     }
 }

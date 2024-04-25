@@ -1,6 +1,6 @@
-package org.example.linketinder.service.factory
+package org.example.linketinder.factorys
 
-import org.example.linketinder.dao.factory.DaoFactory
+import org.example.linketinder.factorys.DaoFactory
 import org.example.linketinder.dao.interfaces.CandidatoCompetenciaDao
 import org.example.linketinder.dao.interfaces.CandidatoDao
 import org.example.linketinder.dao.interfaces.CandidatoVagaDao
